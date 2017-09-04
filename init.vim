@@ -28,6 +28,12 @@ Plug 'vim-airline/vim-airline-themes'
 " Download our favourite theme
 Plug 'zanglg/nova.vim'
 
+" Better file browsing
+Plug 'tpope/vim-vinegar'
+
+" Right hand file browser
+Plug 'scrooloose/nerdtree'
+
 " Initialize plugin system
 call plug#end()
 
@@ -84,6 +90,9 @@ nmap <Leader>ev :tabedit $MYVIMRC<cr>
 
 "Highlight removal
 nmap <Leader><space> :nohlsearch<cr>
+
+"Make it easier to toggle NERDTree
+nmap <C-\> :NERDTreeToggle<cr>
 
 "-------------------Auto-Commands----------------------------
 
