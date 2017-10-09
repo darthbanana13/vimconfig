@@ -5,6 +5,9 @@ syntax enable
 " start of the line char
 set backspace=indent,eol,start
 
+" Enable mouse
+set mouse=a
+
 " Define leader key , instead of \
 let mapleader = ','
 
@@ -15,7 +18,6 @@ set number
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
-
 
 " #VIM Plug
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
@@ -33,6 +35,31 @@ Plug 'tpope/vim-vinegar'
 
 " Right hand file browser
 Plug 'scrooloose/nerdtree'
+
+" Quickly find files
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
+
+"For the silver searcher plugin
+"Plug 'rking/ag.vim'
+
+Plug 'skwp/greplace.vim'
+
+" Ultisnips engine
+Plug 'SirVer/ultisnips'
+
+"Snippets are separated from the engine. The following line adds them
+Plug 'honza/vim-snippets'
+
+"Delete/Change/Add surroundings
+Plug 'tpope/vim-surround'
+
+"Moar PHPs!
+Plug 'StanAngeloff/php.vim'
+
+"Auto-add use statement
+Plug 'arnaud-lb/vim-php-namespace'
 
 " Initialize plugin system
 call plug#end()
@@ -87,12 +114,11 @@ set incsearch
 
 "Make it easy to edit Vimrc(init) file.
 nmap <Leader>ev :tabedit $MYVIMRC<cr>
+nmap <Leader>es :tabedit 
 
 "Highlight removal
 nmap <Leader><space> :nohlsearch<cr>
 
-"Make it easier to toggle NERDTree
-nmap <C-\> :NERDTreeToggle<cr>
 
 "-------------------Auto-Commands----------------------------
 
@@ -101,6 +127,26 @@ augroup autosourcing
 	"Automatically source the Vimrc(init) file on save.
 	autocmd BufWritePost init.vim source %
 augroup END
+
+"/
+"/For vim-php-namespace
+"/
+
+"add use statement
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
+
+"addd fully qulified class name
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
 
 "-------------------Visuals----------------------------
 "Set the vim background to transparent so the colorscheme
@@ -115,3 +161,19 @@ nmap <C-J> <C-W><C-J>
 nmap <C-K> <C-W><C-K>
 nmap <C-H> <C-W><C-H>
 nmap <C-L> <C-W><C-L>
+
+"-------------------FZF----------------------------
+"Bind the FZF file search to CTRL+P, same as the CtrlP plugin
+nmap <C-p> :Files<cr>
+
+"-------------------NERDTree----------------------------
+" Don't let NERDTree Hijack Dash
+let NERDTreeHijackNetrw = 0
+
+"Make it easier to toggle NERDTree
+nmap <C-\> :NERDTreeToggle<cr>
+
+"-------------------greplace----------------------------
+" Instruct greplace to use ag
+set grepprg=ag
+let g:grep_cmd_opts = '--line-numbers --noheading'
