@@ -17,6 +17,21 @@ set number
 " Copy to system clipboard
 set clipboard=unnamedplus
 
+"Automatically write the file when switching buffers.
+set autowriteall
+
+"Autocomplete match current file, window, buffer, unclosed buffer
+set complete=.,w,b,u
+
+"Tabs and spaces
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab                       "Use spaces instead of tabs
+
+"PHP Fixer level
+let g:php_cs_fixer_level = "psr2"  
+
 " Set true color in (n)vim
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -44,8 +59,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plug 'ctrlpvim/ctrlp.vim'
 
+"Best git wrapper form Vim
+Plug 'tpope/vim-fugitive'
+
 "For the silver searcher plugin
-"Plug 'rking/ag.vim'
+Plug 'ggreer/the_silver_searcher'
 
 Plug 'skwp/greplace.vim'
 
@@ -58,11 +76,20 @@ Plug 'honza/vim-snippets'
 "Delete/Change/Add surroundings
 Plug 'tpope/vim-surround'
 
+"PHP CS Fixer
+Plug 'stephpy/vim-php-cs-fixer'
+
 "Moar PHPs!
 Plug 'StanAngeloff/php.vim'
 
 "Auto-add use statement
 Plug 'arnaud-lb/vim-php-namespace'
+
+"Tab completion
+Plug 'ervandew/supertab'
+
+"PHP CS Fixer
+Plug 'stephpy/vim-php-cs-fixer'
 
 " Initialize plugin system
 call plug#end()
@@ -169,6 +196,9 @@ nmap <C-L> <C-W><C-L>
 "Bind the FZF file search to CTRL+P, same as the CtrlP plugin
 nmap <C-p> :Files<cr>
 
+"Search in opened buffers
+nmap <C-e> :Buffers<cr>
+
 "-------------------NERDTree----------------------------
 " Don't let NERDTree Hijack Dash
 let NERDTreeHijackNetrw = 0
@@ -180,3 +210,7 @@ nmap <C-\> :NERDTreeToggle<cr>
 " Instruct greplace to use ag
 set grepprg=ag
 let g:grep_cmd_opts = '--line-numbers --noheading'
+
+"-------------------php-cs-fixer----------------------------
+" Change the maping for beautifying a file
+nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
