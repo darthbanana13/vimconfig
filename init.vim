@@ -30,7 +30,18 @@ set softtabstop=4
 set expandtab                       "Use spaces instead of tabs
 
 "PHP Fixer level
-let g:php_cs_fixer_level = "psr2"  
+let g:php_cs_fixer_level = "psr2"
+
+"Map delete to black hole register
+nnoremap <Leader>d "_d
+vnoremap <Leader>d "_d
+vnoremap <Leader>p "_dP
+
+"Move lines with Shift+Up/Down
+nnoremap <S-Up> :m-2<CR>
+nnoremap <S-Down> :m+<CR>
+inoremap <S-Up> <Esc>:m-2<CR>
+inoremap <S-Down> <Esc>:m+<CR>
 
 " Set true color in (n)vim
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -91,6 +102,26 @@ Plug 'ervandew/supertab'
 "PHP CS Fixer
 Plug 'stephpy/vim-php-cs-fixer'
 
+"Sublime like multiple cursors
+Plug 'terryma/vim-multiple-cursors'
+
+"Expand selected region
+Plug 'terryma/vim-expand-region'
+
+"Quickly comment lines
+Plug 'scrooloose/nerdcommenter'
+
+"To create our own text objects
+Plug 'kana/vim-textobj-user'
+
+"Add a textobject for the entire file 'e'
+Plug 'kana/vim-textobj-entire'
+
+"Add a textobject for an entire line 'l'
+Plug 'kana/vim-textobj-line'
+
+"Add a textobject for an entire indent 'i'
+Plug 'kana/vim-textobj-indent'
 " Initialize plugin system
 call plug#end()
 
@@ -149,6 +180,53 @@ nmap <Leader>es :tabedit
 "Highlight removal
 nmap <Leader><space> :nohlsearch<cr>
 
+" http://vim.wikia.com/wiki/Move_to_next/previous_line_with_same_indentation
+" Jump to the next or previous line that has the same level or a lower
+" level of indentation than the current line.
+"
+" exclusive (bool): true: Motion is exclusive
+" false: Motion is inclusive
+" fwd (bool): true: Go to next line
+" false: Go to previous line
+" lowerlevel (bool): true: Go to line with lower indentation level
+" false: Go to line with the same indentation level
+" skipblanks (bool): true: Skip blank lines
+" false: Don't skip blank lines
+function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
+  let line = line('.')
+  let column = col('.')
+  let lastline = line('$')
+  let indent = indent(line)
+  let stepvalue = a:fwd ? 1 : -1
+  while (line > 0 && line <= lastline)
+    let line = line + stepvalue
+    if ( ! a:lowerlevel && indent(line) == indent ||
+          \ a:lowerlevel && indent(line) < indent)
+      if (! a:skipblanks || strlen(getline(line)) > 0)
+        if (a:exclusive)
+          let line = line - stepvalue
+        endif
+        exe line
+        exe "normal " column . "|"
+        return
+      endif
+    endif
+  endwhile
+endfunction
+
+" Moving back and forth between lines of same or lower indentation.
+nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+nnoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+nnoremap <silent> [L :call NextIndent(0, 0, 1, 1)<CR>
+nnoremap <silent> ]L :call NextIndent(0, 1, 1, 1)<CR>
+vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
+vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
+vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
+vnoremap <silent> ]L <Esc>:call NextIndent(0, 1, 1, 1)<CR>m'gv''
+onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
+onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 
 "-------------------Auto-Commands----------------------------
 
@@ -204,7 +282,14 @@ nmap <C-e> :Buffers<cr>
 let NERDTreeHijackNetrw = 0
 
 "Make it easier to toggle NERDTree
-nmap <C-\> :NERDTreeToggle<cr>
+" nmap <C-\> :NERDTreeToggle<cr>
+
+"-------------------NERDCommenter----------------------------
+let g:NERDSpaceDelims = 4 
+nmap <C-_> <plug>NERDCommenterToggle
+vmap <C-_> <plug>NERDCommenterToggle gv
+" https://stackoverflow.com/a/2630579/2936504
+imap <C-_> <C-o><plug>NERDCommenterToggle
 
 "-------------------greplace----------------------------
 " Instruct greplace to use ag
