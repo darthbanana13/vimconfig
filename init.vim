@@ -365,6 +365,3 @@ let g:gitgutter_map_keys = 0
 "-------------------ale----------------------------
 " Some optimizations
 let g:ale_lint_delay = 4000
-
-"-------------------vinegar----------------------------
-" map - to something else so it does not interfere with fugitive
