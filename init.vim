@@ -14,8 +14,8 @@ let mapleader = ','
 " Activate line numbers
 set number
 
-" Copy to system clipboard
-set clipboard=unnamedplus
+" Copy to system clipboard (+, not *)
+" set clipboard=unnamedplus
 
 "Automatically write the file when switching buffers.
 set autowriteall
@@ -35,13 +35,64 @@ let g:php_cs_fixer_level = "psr2"
 "Map delete to black hole register
 nnoremap <Leader>d "_d
 vnoremap <Leader>d "_d
-vnoremap <Leader>p "_dP
+
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
+inoremap <Leader>pp <C-o>"+p
+
+nnoremap <Leader>l "0p
+vnoremap <Leader>l "0p
+inoremap <Leader>ll <C-o>"0p
+
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+
+nnoremap <Leader>c "+d
+vnoremap <Leader>c "+d
+
+" Toggle to don't indent on paste
+" set pastetoggle=<F2>
+
+" To paste without explicitly turning paste mode on or off https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
+" function! WrapForTmux(s)
+  " if !exists('$TMUX')
+    " return a:s
+  " endif
+
+  " let tmux_start = "\<Esc>Ptmux;"
+  " let tmux_end = "\<Esc>\\"
+
+  " return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+" endfunction
+
+" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+" function! XTermPasteBegin()
+  " set pastetoggle=<Esc>[201~
+  " set paste
+  " return ""
+" endfunction
+
+" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+" Prevent the cursor going back one character when exiting from insert mode
+let CursorColumnI = 0 "the cursor column position in INSERT
+autocmd InsertEnter * let CursorColumnI = col('.')
+autocmd CursorMovedI * let CursorColumnI = col('.')
+autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
 
 "Move lines with Shift+Up/Down
 nnoremap <S-Up> :m-2<CR>
 nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
+
+" Set the updatime for vim and plugins like git gutter
+ set updatetime=4000
+
+" Set default encoding
+set encoding=utf-8
 
 " Set true color in (n)vim
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -59,6 +110,9 @@ Plug 'vim-airline/vim-airline-themes'
 " Download our favourite theme
 Plug 'zanglg/nova.vim'
 
+"Best git wrapper form Vim
+Plug 'tpope/vim-fugitive'
+
 " Better file browsing
 Plug 'tpope/vim-vinegar'
 
@@ -69,9 +123,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plug 'ctrlpvim/ctrlp.vim'
-
-"Best git wrapper form Vim
-Plug 'tpope/vim-fugitive'
 
 "For the silver searcher plugin
 Plug 'ggreer/the_silver_searcher'
@@ -122,6 +173,13 @@ Plug 'kana/vim-textobj-line'
 
 "Add a textobject for an entire indent 'i'
 Plug 'kana/vim-textobj-indent'
+
+" Show modified git files
+Plug 'airblade/vim-gitgutter'
+
+" Show syntactic errors (like a linter)
+Plug 'w0rp/ale'
+
 " Initialize plugin system
 call plug#end()
 
@@ -299,3 +357,14 @@ let g:grep_cmd_opts = '--line-numbers --noheading'
 "-------------------php-cs-fixer----------------------------
 " Change the maping for beautifying a file
 nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
+
+"-------------------vim-gitgutter----------------------------
+" Don't set up any key shortcuts yet
+let g:gitgutter_map_keys = 0
+
+"-------------------ale----------------------------
+" Some optimizations
+let g:ale_lint_delay = 4000
+
+"-------------------vinegar----------------------------
+" map - to something else so it does not interfere with fugitive
