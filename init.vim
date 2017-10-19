@@ -14,14 +14,8 @@ let mapleader = ','
 " Activate line numbers
 set number
 
-" Copy to system clipboard (+, not *)
-" set clipboard=unnamedplus
-
 "Automatically write the file when switching buffers.
 set autowriteall
-
-"Autocomplete match current file, window, buffer, unclosed buffer
-set complete=.,w,b,u
 
 "Tabs and spaces
 set tabstop=4
@@ -29,8 +23,8 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab                       "Use spaces instead of tabs
 
-"PHP Fixer level
-let g:php_cs_fixer_level = "psr2"
+" Copy to system clipboard (+, not *)
+" set clipboard=unnamedplus
 
 "Map delete to black hole register
 nnoremap <Leader>d "_d
@@ -49,6 +43,8 @@ vnoremap <Leader>y "+y
 
 nnoremap <Leader>c "+d
 vnoremap <Leader>c "+d
+
+
 
 " Toggle to don't indent on paste
 " set pastetoggle=<F2>
@@ -76,6 +72,8 @@ vnoremap <Leader>c "+d
 
 " inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
+
+
 " Prevent the cursor going back one character when exiting from insert mode
 let CursorColumnI = 0 "the cursor column position in INSERT
 autocmd InsertEnter * let CursorColumnI = col('.')
@@ -98,6 +96,13 @@ set encoding=utf-8
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
+
+" Use tags from Ctags to the max by allowing it to suggest completion
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
+"Autocomplete match current file, window, buffer, unclosed buffer
+set complete=.,w,b,u
 
 " #VIM Plug
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
@@ -358,6 +363,9 @@ let g:grep_cmd_opts = '--line-numbers --noheading'
 " Change the maping for beautifying a file
 nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
 
+"PHP Fixer level
+let g:php_cs_fixer_level = "psr2"
+
 "-------------------vim-gitgutter----------------------------
 " Don't set up any key shortcuts yet
 let g:gitgutter_map_keys = 0
@@ -365,3 +373,7 @@ let g:gitgutter_map_keys = 0
 "-------------------ale----------------------------
 " Some optimizations
 let g:ale_lint_delay = 4000
+
+"-------------------supertab----------------------------
+" Change the default completion mode for supertab
+let g:SuperTabDefaultCompletionType = "context"
