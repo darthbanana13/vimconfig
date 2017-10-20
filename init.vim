@@ -47,7 +47,7 @@ vnoremap <Leader>c "+d
 
 
 " Toggle to don't indent on paste
-" set pastetoggle=<F2>
+set pastetoggle=<F2>
 
 " To paste without explicitly turning paste mode on or off https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
 " function! WrapForTmux(s)
@@ -154,6 +154,9 @@ Plug 'arnaud-lb/vim-php-namespace'
 
 "Tab completion
 Plug 'ervandew/supertab'
+
+" Better PHP Completion
+Plug 'shawncplus/phpcomplete.vim'
 
 "PHP CS Fixer
 Plug 'stephpy/vim-php-cs-fixer'
@@ -345,7 +348,7 @@ nmap <C-e> :Buffers<cr>
 let NERDTreeHijackNetrw = 0
 
 "Make it easier to toggle NERDTree
-" nmap <C-\> :NERDTreeToggle<cr>
+ nmap <C-\> :NERDTreeToggle<cr>
 
 "-------------------NERDCommenter----------------------------
 let g:NERDSpaceDelims = 4 
@@ -376,4 +379,9 @@ let g:ale_lint_delay = 4000
 
 "-------------------supertab----------------------------
 " Change the default completion mode for supertab
-let g:SuperTabDefaultCompletionType = "context"
+
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+set completeopt=longest,menuone
+
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabLongestEnhanced = 1
