@@ -194,6 +194,9 @@ Plug 'tobyS/vmustache'
 " PHP Documentor
 Plug 'tobyS/pdv'
 
+" Navigate fast in the window
+Plug 'easymotion/vim-easymotion'
+
 " Initialize plugin system
 call plug#end()
 
