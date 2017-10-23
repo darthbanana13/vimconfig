@@ -188,6 +188,12 @@ Plug 'airblade/vim-gitgutter'
 " Show syntactic errors (like a linter)
 Plug 'w0rp/ale'
 
+" Mustache template system, required for pdv
+Plug 'tobyS/vmustache'
+
+" PHP Documentor
+Plug 'tobyS/pdv'
+
 " Initialize plugin system
 call plug#end()
 
@@ -302,25 +308,12 @@ augroup autosourcing
 	autocmd BufWritePost init.vim source %
 augroup END
 
-"/
-"/For vim-php-namespace
-"/
-
-"add use statement
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
+function! Autodirectory()
+    if ( isdirectory(expand("%:p")))
+        cd %:p:h
+    endif
 endfunction
-autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
-
-"addd fully qulified class name
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a', 'n')
-endfunction
-autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
+autocmd VimEnter * silent! :call Autodirectory()<CR>
 
 "-------------------Visuals----------------------------
 "Set the vim background to transparent so the colorscheme
@@ -385,3 +378,31 @@ set completeopt=longest,menuone
 
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabLongestEnhanced = 1
+
+"-------------------php-namespace----------------------------
+
+"add use statement
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
+
+"addd fully qulified class name
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
+
+"-------------------pdv----------------------------
+
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+nnoremap <leader>m :call pdv#DocumentWithSnip()<CR>
+
+"-------------------ultisnip----------------------------
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
