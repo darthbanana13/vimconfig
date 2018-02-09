@@ -23,6 +23,9 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab                       "Use spaces instead of tabs
 
+set undofile
+set undodir=$HOME/.local/share/undo
+
 " Copy to system clipboard (+, not *)
 " set clipboard=unnamedplus
 
@@ -43,8 +46,6 @@ vnoremap <Leader>y "+y
 
 nnoremap <Leader>c "+d
 vnoremap <Leader>c "+d
-
-
 
 " Toggle to don't indent on paste
 set pastetoggle=<F2>
@@ -153,16 +154,28 @@ Plug 'StanAngeloff/php.vim'
 Plug 'arnaud-lb/vim-php-namespace'
 
 "Tab completion
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
+
+" Autocompletion
+" Plug 'Valloric/YouCompleteMe'
+
+" PHP Completion Daemon Plugin
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+
+" Language Server Protocol Support for neovim
+Plug 'autozimu/LanguageClient-neovim', {
+	\ 'branch': 'next',
+	\ 'do': 'bash install.sh',
+	\ }
+
+" Completion framework for neovim
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+" PHP Language Server
+Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 " Better PHP Completion
-Plug 'shawncplus/phpcomplete.vim'
-
-"PHP CS Fixer
-Plug 'stephpy/vim-php-cs-fixer'
-
-"Sublime like multiple cursors
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'shawncplus/phpcomplete.vim'
 
 "Expand selected region
 Plug 'terryma/vim-expand-region'
@@ -186,7 +199,7 @@ Plug 'kana/vim-textobj-indent'
 Plug 'airblade/vim-gitgutter'
 
 " Show syntactic errors (like a linter)
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 
 " Mustache template system, required for pdv
 Plug 'tobyS/vmustache'
@@ -196,6 +209,15 @@ Plug 'tobyS/pdv'
 
 " Navigate fast in the window
 Plug 'easymotion/vim-easymotion'
+
+" To easily see blocks of code
+Plug 'nathanaelkane/vim-indent-guides'
+
+" For tmux
+" Plug 'edkolev/tmuxline.vim'
+
+" For prompt
+" Plug  'edkolev/promptline.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -371,16 +393,38 @@ let g:gitgutter_map_keys = 0
 
 "-------------------ale----------------------------
 " Some optimizations
-let g:ale_lint_delay = 4000
+" let g:ale_lint_delay = 4000
 
-"-------------------supertab----------------------------
+" Show the errors in a Vim window
+" let g:ale_open_list = 1
+
+"-------------------PHPComplete----------------------------
 " Change the default completion mode for supertab
 
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+" autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
 set completeopt=longest,menuone
 
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabLongestEnhanced = 1
+"-------------------Language Client Neovim----------------------------
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+	\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+	\ 'javascript': ['javascript-typescript-stdio'],
+	\ 'javascript.jsx': ['javascript-typescript-stdio'],
+	\ }
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+"-------------------deoplete----------------------------
+let g:deoplete#enable_at_startup = 1
+
+"-------------------SuperTab----------------------------
+" let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+" let g:SuperTabLongestEnhanced = 1
+" literal tab can be: Ctrl-V Tab
 
 "-------------------php-namespace----------------------------
 
@@ -409,3 +453,18 @@ nnoremap <leader>m :call pdv#DocumentWithSnip()<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+"
+"-------------------YouCompleteMe----------------------------
+let g:ycm_auto_trigger = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+"-------------------tmuxline----------------------------
+" let g:tmuxline_preset = {
+    " \'a'        : '#S',
+    " \'win'      : '#I #W',
+    " \'cwin'     : '#I #W',
+    " \'x'        : '%H:%M',
+    " \'y'        : '%a',
+    " \'z'        : '%d-%m-%Y',
+    " \'options'  : {
+        " \'status-justify': 'left'}}
