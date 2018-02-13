@@ -169,7 +169,9 @@ Plug 'autozimu/LanguageClient-neovim', {
 	\ }
 
 " Completion framework for neovim
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/vim-hug-neovim-rpc'
 
 " PHP Language Server
 Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
@@ -407,6 +409,7 @@ set completeopt=longest,menuone
 "-------------------Language Client Neovim----------------------------
 " Required for operations modifying multiple buffers like rename.
 set hidden
+set signcolumn=yes
 
 let g:LanguageClient_serverCommands = {
 	\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
@@ -414,12 +417,12 @@ let g:LanguageClient_serverCommands = {
 	\ 'javascript.jsx': ['javascript-typescript-stdio'],
 	\ }
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+nnoremap <leader>h :call LanguageClient_textDocument_hover()<CR>
+nnoremap <C-w> :call LanguageClient_textDocument_definition()<CR>
+nnoremap <leader>r :call LanguageClient_textDocument_rename()<CR>
 
 "-------------------deoplete----------------------------
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 "-------------------SuperTab----------------------------
 " let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
