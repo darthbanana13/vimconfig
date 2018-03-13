@@ -418,7 +418,7 @@ let g:LanguageClient_serverCommands = {
 	\ }
 
 nnoremap <leader>h :call LanguageClient_textDocument_hover()<CR>
-nnoremap <C-w> :call LanguageClient_textDocument_definition()<CR>
+nnoremap <leader>w :call LanguageClient_textDocument_definition()<CR>
 nnoremap <leader>r :call LanguageClient_textDocument_rename()<CR>
 
 "-------------------deoplete----------------------------
