@@ -147,11 +147,13 @@ Plug 'tpope/vim-surround'
 "PHP CS Fixer
 Plug 'stephpy/vim-php-cs-fixer'
 
-"Moar PHPs!
-Plug 'StanAngeloff/php.vim'
+"improve the syntax highlighting
+Plug 'StanAngeloff/php.vim', {'for': 'php'}
 
 "Auto-add use statement
 Plug 'arnaud-lb/vim-php-namespace'
+
+"------------------Autocompleteompletion land------------------
 
 "Tab completion
 " Plug 'ervandew/supertab'
@@ -163,21 +165,54 @@ Plug 'arnaud-lb/vim-php-namespace'
 " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Language Server Protocol Support for neovim
-Plug 'autozimu/LanguageClient-neovim', {
-	\ 'branch': 'next',
-	\ 'do': 'bash install.sh',
-	\ }
+" Plug 'autozimu/LanguageClient-neovim', {
+    " \ 'branch': 'next',
+    " \ 'do': 'bash install.sh',
+    " \ }
 
 " Completion framework for neovim
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/vim-hug-neovim-rpc'
 
 " PHP Language Server
-Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 " Better PHP Completion
 " Plug 'shawncplus/phpcomplete.vim'
+
+
+
+" Autocomplete system
+
+" php autocompletion engine and tools
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'kristijanhusak/deoplete-phpactor',  {'for': 'php'}
+" Plug 'zchee/deoplete-go', {'for': 'go'} " autocompletion
+" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx', 'vue'] }
+
+Plug 'joonty/vdebug'
+
+Plug 'roxma/ncm-phpactor',  {'for': 'php'}
+Plug 'ncm2/ncm2' "Research this more
+Plug 'roxma/nvim-yarp'
+" For JavaScript
+Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+
+Plug 'nishigori/vim-php-dictionary', {'for': 'php'}
+
+" php refactoring options
+Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+Plug '2072/php-indenting-for-vim', {'for': 'php'}
+
+"------------------End autocompleteompletion land------------------
+
+" Put wrong things in the gutter 
+Plug 'neomake/neomake'
+
+" outliner
+Plug 'majutsushi/tagbar'
 
 "Expand selected region
 Plug 'terryma/vim-expand-region'
@@ -203,11 +238,8 @@ Plug 'airblade/vim-gitgutter'
 " Show syntactic errors (like a linter)
 " Plug 'w0rp/ale'
 
-" Mustache template system, required for pdv
-Plug 'tobyS/vmustache'
-
-" PHP Documentor
-Plug 'tobyS/pdv'
+" Mustache template system, required for pdv |PHP Documentor
+Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'}
 
 " Navigate fast in the window
 Plug 'easymotion/vim-easymotion'
@@ -220,6 +252,15 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 " For prompt
 " Plug  'edkolev/promptline.vim'
+
+" For navigating registers
+Plug 'bfredl/nvim-miniyank'
+
+" Close the currentent bufferer withoutut affecting other windowows
+Plug 'moll/vim-bbye'
+
+" easily search, substitute and abbreviate multiple version of words
+Plug 'tpope/vim-abolish'
 
 " Initialize plugin system
 call plug#end()
