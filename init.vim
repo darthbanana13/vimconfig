@@ -106,6 +106,12 @@ set omnifunc=syntaxcomplete#Complete
 set complete=.,w,b,u
 
 " #VIM Plug
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd!
+    autocmd VimEnter * PlugInstall
+endif
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.vim/plugged')
 
@@ -163,21 +169,24 @@ Plug 'arnaud-lb/vim-php-namespace'
 " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Language Server Protocol Support for neovim
-Plug 'autozimu/LanguageClient-neovim', {
-	\ 'branch': 'next',
-	\ 'do': 'bash install.sh',
-	\ }
+" Plug 'autozimu/LanguageClient-neovim', {
+	" \ 'branch': 'next',
+	" \ 'do': 'bash install.sh',
+	" \ }
 
 " Completion framework for neovim
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/vim-hug-neovim-rpc'
 
 " PHP Language Server
-Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 
 " Better PHP Completion
 " Plug 'shawncplus/phpcomplete.vim'
+
+" Autocompletion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'padawan-php/deoplete-padawan', { 'for': 'php' }
 
 "Expand selected region
 Plug 'terryma/vim-expand-region'
@@ -423,6 +432,15 @@ nnoremap <leader>r :call LanguageClient_textDocument_rename()<CR>
 
 "-------------------deoplete----------------------------
 " let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#padawan#add_parentheses = 1
+" needed for echodoc to work if add_parentheses is 1
+let g:deoplete#skip_chars = ['$']
+"
+let g:deoplete#sources = {}
+let g:deoplete#sources.php = ['padawan', 'ultisnips', 'tags', 'buffer']
+
+inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
 
 "-------------------SuperTab----------------------------
 " let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
@@ -458,8 +476,8 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "
 "-------------------YouCompleteMe----------------------------
-let g:ycm_auto_trigger = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_auto_trigger = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
 
 "-------------------tmuxline----------------------------
 " let g:tmuxline_preset = {
