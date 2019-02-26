@@ -1,6 +1,9 @@
 " Enable syntax highlighting
 syntax enable
 
+" Don't let vim work in legacy VI mode
+set nocompatible
+
 " Delete & Backspace keys can now deletelete indentation, EOL chacters, and
 " start of the line char
 set backspace=indent,eol,start
@@ -25,6 +28,10 @@ set expandtab                       "Use spaces instead of tabs
 
 set undofile
 set undodir=$HOME/.local/share/undo
+if has("persistent_undo")
+    set undodir=~/.undodir/
+    set undofile
+endif
 
 " Copy to system clipboard (+, not *)
 " set clipboard=unnamedplus
@@ -37,9 +44,17 @@ nnoremap <Leader>p "+p
 vnoremap <Leader>p "+p
 inoremap <Leader>pp <C-o>"+p
 
+nnoremap <Leader>P "+P
+vnoremap <Leader>P "+P
+inoremap <Leader>PP <C-o>"+P
+
 nnoremap <Leader>l "0p
 vnoremap <Leader>l "0p
 inoremap <Leader>ll <C-o>"0p
+
+nnoremap <Leader>L "0P
+vnoremap <Leader>L "0P
+inoremap <Leader>LL <C-o>"0P
 
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
@@ -47,33 +62,10 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>c "+d
 vnoremap <Leader>c "+d
 
+vnoremap <C-f> y/<C-R>"<CR>
+
 " Toggle to don't indent on paste
 set pastetoggle=<F2>
-
-" To paste without explicitly turning paste mode on or off https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
-" function! WrapForTmux(s)
-  " if !exists('$TMUX')
-    " return a:s
-  " endif
-
-  " let tmux_start = "\<Esc>Ptmux;"
-  " let tmux_end = "\<Esc>\\"
-
-  " return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-" endfunction
-
-" let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-" let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-" function! XTermPasteBegin()
-  " set pastetoggle=<Esc>[201~
-  " set paste
-  " return ""
-" endfunction
-
-" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-
 
 " Prevent the cursor going back one character when exiting from insert mode
 let CursorColumnI = 0 "the cursor column position in INSERT
@@ -88,10 +80,11 @@ inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
 
 " Set the updatime for vim and plugins like git gutter
- set updatetime=4000
+set updatetime=4000
 
 " Set default encoding
 set encoding=utf-8
+scriptencoding utf-8
 
 " Set true color in (n)vim
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -104,6 +97,29 @@ set omnifunc=syntaxcomplete#Complete
 
 "Autocomplete match current file, window, buffer, unclosed buffer
 set complete=.,w,b,u
+
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
 
 " #VIM Plug
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
@@ -132,14 +148,14 @@ Plug 'tpope/vim-vinegar'
 Plug 'scrooloose/nerdtree'
 
 " Quickly find files
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 "Plug 'ctrlpvim/ctrlp.vim'
 
 "For the silver searcher plugin
 Plug 'ggreer/the_silver_searcher'
 
-Plug 'skwp/greplace.vim'
+" Plug 'skwp/greplace.vim'
 
 " Ultisnips engine
 Plug 'SirVer/ultisnips'
@@ -159,60 +175,23 @@ Plug 'StanAngeloff/php.vim', {'for': 'php'}
 "Auto-add use statement
 Plug 'arnaud-lb/vim-php-namespace'
 
-"------------------Autocompleteompletion land------------------
+"Seach as you type
+Plug 'osyo-manga/vim-over'
 
-"Tab completion
-" Plug 'ervandew/supertab'
+" Add an intellisense engine (and language server) to VIM
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
 
-" Autocompletion
-" Plug 'Valloric/YouCompleteMe'
+" Language: PHP
+Plug 'phux/php-doc-modded', {'for': 'php'}
+Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'alvan/vim-php-manual', {'for': 'php'}
 
-" PHP Completion Daemon Plugin
-" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-
-" Language Server Protocol Support for neovim
-" Plug 'autozimu/LanguageClient-neovim', {
-	" \ 'branch': 'next',
-	" \ 'do': 'bash install.sh',
-	" \ }
-
-" Completion framework for neovim
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'roxma/nvim-completion-manager'
-" Plug 'roxma/vim-hug-neovim-rpc'
-
-" PHP Language Server
-" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
-
-" Better PHP Completion
-" Plug 'shawncplus/phpcomplete.vim'
-
-" Autocomplete system
-
-" php autocompletion engine and tools
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'kristijanhusak/deoplete-phpactor',  {'for': 'php'}
-" Plug 'zchee/deoplete-go', {'for': 'go'} " autocompletion
-" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx', 'vue'] }
-
+" Xdebug for PHP
 Plug 'joonty/vdebug'
 
-Plug 'roxma/ncm-phpactor',  {'for': 'php'}
-Plug 'ncm2/ncm2' "Research this more
-Plug 'roxma/nvim-yarp'
-" For JavaScript
-Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
-
-Plug 'nishigori/vim-php-dictionary', {'for': 'php'}
-
-" php refactoring options
-Plug 'adoy/vim-php-refactoring-toolbox', {'for': 'php'}
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
-Plug '2072/php-indenting-for-vim', {'for': 'php'}
-
-"------------------End autocompleteompletion land------------------
-
-" Put wrong things in the gutter 
+" Put wrong things in the gutter
 Plug 'neomake/neomake'
 
 " outliner
@@ -240,7 +219,7 @@ Plug 'kana/vim-textobj-indent'
 Plug 'airblade/vim-gitgutter'
 
 " Show syntactic errors (like a linter)
-" Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 
 " Mustache template system, required for pdv |PHP Documentor
 Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'}
@@ -265,6 +244,9 @@ Plug 'moll/vim-bbye'
 
 " easily search, substitute and abbreviate multiple version of words
 Plug 'tpope/vim-abolish'
+
+" Undo tree
+Plug 'mbbill/undotree'
 
 " Initialize plugin system
 call plug#end()
@@ -319,7 +301,7 @@ set incsearch
 
 "Make it easy to edit Vimrc(init) file.
 nmap <Leader>ev :tabedit $MYVIMRC<cr>
-nmap <Leader>es :tabedit 
+nmap <Leader>es :tabedit
 
 "Highlight removal
 nmap <Leader><space> :nohlsearch<cr>
@@ -416,7 +398,7 @@ let NERDTreeHijackNetrw = 0
  nmap <C-\> :NERDTreeToggle<cr>
 
 "-------------------NERDCommenter----------------------------
-let g:NERDSpaceDelims = 4 
+let g:NERDSpaceDelims = 4
 nmap <C-_> <plug>NERDCommenterToggle
 vmap <C-_> <plug>NERDCommenterToggle gv
 " https://stackoverflow.com/a/2630579/2936504
@@ -442,46 +424,25 @@ let g:gitgutter_map_keys = 0
 " Some optimizations
 " let g:ale_lint_delay = 4000
 
+" nnoremap <silent> <leader><F8> :ALEToggleBuffer<cr>
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " Show the errors in a Vim window
-" let g:ale_open_list = 1
-
-"-------------------PHPComplete----------------------------
-" Change the default completion mode for supertab
-
-" autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-set completeopt=longest,menuone
-
-"-------------------Language Client Neovim----------------------------
-" Required for operations modifying multiple buffers like rename.
-set hidden
-set signcolumn=yes
-
-let g:LanguageClient_serverCommands = {
-	\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-	\ 'javascript': ['javascript-typescript-stdio'],
-	\ 'javascript.jsx': ['javascript-typescript-stdio'],
-	\ }
-
-nnoremap <leader>h :call LanguageClient_textDocument_hover()<CR>
-nnoremap <leader>w :call LanguageClient_textDocument_definition()<CR>
-nnoremap <leader>r :call LanguageClient_textDocument_rename()<CR>
-
-"-------------------deoplete----------------------------
-" let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#padawan#add_parentheses = 1
-" needed for echodoc to work if add_parentheses is 1
-let g:deoplete#skip_chars = ['$']
-"
-let g:deoplete#sources = {}
-let g:deoplete#sources.php = ['padawan', 'ultisnips', 'tags', 'buffer']
-
-inoremap <expr> <TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<TAB>"
-
-"-------------------SuperTab----------------------------
-" let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
-" let g:SuperTabLongestEnhanced = 1
-" literal tab can be: Ctrl-V Tab
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open=0
+let g:ale_set_quickfix=1
+let g:ale_list_window_size = 5
+let g:ale_fixers = {}
+let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['go'] = ['gofmt', 'goimports']
+" let g:ale_fixers['json'] = ['fixjson', 'prettier']
+let g:ale_fix_on_save = 1
 
 "-------------------php-namespace----------------------------
 
@@ -510,18 +471,94 @@ nnoremap <leader>m :call pdv#DocumentWithSnip()<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-"
-"-------------------YouCompleteMe----------------------------
-" let g:ycm_auto_trigger = 1
-" let g:ycm_collect_identifiers_from_tags_files = 1
 
-"-------------------tmuxline----------------------------
-" let g:tmuxline_preset = {
-    " \'a'        : '#S',
-    " \'win'      : '#I #W',
-    " \'cwin'     : '#I #W',
-    " \'x'        : '%H:%M',
-    " \'y'        : '%a',
-    " \'z'        : '%d-%m-%Y',
-    " \'options'  : {
-        " \'status-justify': 'left'}}
+"-------------------vim-over----------------------------
+nnoremap <leader>f :OverCommandLine<CR>%s/
+vnoremap <leader>f :OverCommandLine<CR>%s/<C-R>"/
+
+"-------------------COC----------------------------
+" Required for operations modifying multiple buffers like rename.
+set hidden
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Remap for rename current word
+nmap <silent> <leader>gr <Plug>(coc-rename)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Using CocList
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
+"-------------------ncm2----------------------------
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" set completeopt=noinsert,menuone,noselect
+set completeopt=menuone
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+" inoremap <c-c> <ESC>
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line.
+" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+" Use <TAB> to select the popup menu:
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" wrap existing omnifunc
+" Note that omnifunc does not run in background and may probably block the
+" editor. If you don't want to be blocked by omnifunc too often, you could
+" add 180ms delay before the omni wrapper:
+"  'on_complete': ['ncm2#on_complete#delay', 180,
+"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+" au User Ncm2Plugin call ncm2#register_source({
+        " \ 'name' : 'css',
+        " \ 'priority': 9,
+        " \ 'subscope_enable': 1,
+        " \ 'scope': ['css','scss'],
+        " \ 'mark': 'css',
+        " \ 'word_pattern': '[\w\-]+',
+        " \ 'complete_pattern': ':\s*',
+        " \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+        " \ })
+
+let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
+let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
