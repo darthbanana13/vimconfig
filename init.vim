@@ -67,6 +67,9 @@ vnoremap <C-f> y/<C-R>"<CR>
 " Toggle to don't indent on paste
 set pastetoggle=<F2>
 
+" Live preview of search/replace
+set inccommand=split
+
 " Prevent the cursor going back one character when exiting from insert mode
 let CursorColumnI = 0 "the cursor column position in INSERT
 autocmd InsertEnter * let CursorColumnI = col('.')
