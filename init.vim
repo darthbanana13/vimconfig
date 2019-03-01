@@ -70,6 +70,10 @@ set pastetoggle=<F2>
 " Live preview of search/replace
 set inccommand=split
 
+" Do case insensitive search unless a add a capital letter to the search
+set ignorecase
+set smartcase
+
 " Prevent the cursor going back one character when exiting from insert mode
 let CursorColumnI = 0 "the cursor column position in INSERT
 autocmd InsertEnter * let CursorColumnI = col('.')
@@ -140,6 +144,8 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Download our favourite theme
 Plug 'zanglg/nova.vim'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 
 "Best git wrapper form Vim
 Plug 'tpope/vim-fugitive'
@@ -147,13 +153,23 @@ Plug 'tpope/vim-fugitive'
 " Better file browsing
 Plug 'tpope/vim-vinegar'
 
-" Right hand file browser
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+" Don't let NERDTree Hijack Dash
+let g:NERDTreeHijackNetrw = 0
+let g:NERDTreeUpdateOnCursorHold = 0
+let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeWinSize = 40
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeCascadeSingleChildDir=0
+let g:NERDTreeAutoDeleteBuffer=1
+
+"Make it easier to toggle NERDTree
+ nmap <C-\> :NERDTreeToggle<cr>
+ " nnoremap <leader>N :NERDTreeFind<cr>
 
 " Quickly find files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
-"Plug 'ctrlpvim/ctrlp.vim'
 
 "For the silver searcher plugin
 Plug 'ggreer/the_silver_searcher'
@@ -250,20 +266,27 @@ Plug 'tpope/vim-abolish'
 
 " Undo tree
 Plug 'mbbill/undotree'
+nnoremap <F4> :UndotreeToggle<cr>
+
+
+" Can't be bothered setting up highlighting for other languages
+Plug 'sheerun/vim-polyglot', {'do': './build'}
+let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
+
+" smart search highligting
+let g:CoolTotalMatches = 1
+Plug 'romainl/vim-cool'
 
 " Initialize plugin system
 call plug#end()
 
-" #VIM Plug End
-
-" Actualy apply the colorscheme
-colorscheme nova
-set background=dark " Setting dark mode
-
 "--------------------AirLine Config------------------------
 " air-line
 let g:airline_powerline_fonts = 1
-let g:airline_theme='powerlineish'
+" let g:airline_theme='powerlineish'
+let g:airline_theme='papercolor'
+" let g:airline_statusline_ontop=1
+let g:airline#extensions#tabline#enabled = 1
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -376,6 +399,19 @@ autocmd VimEnter * silent! :call Autodirectory()<CR>
 "Set the vim background to transparent so the colorscheme
 "from the theme does not get in the way
 hi Normal guibg=NONE ctermbg=NONE
+let g:nova_transparent = 1
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default': {
+  \       'transparent_background': 1
+  \     }
+  \   }
+  \ }
+
+" Actualy apply the colorscheme
+" colorscheme nova
+set background=dark " Setting dark mode
+colorscheme PaperColor
 
 "-------------------Split Management----------------------------
 set splitbelow
@@ -394,11 +430,6 @@ nmap <C-p> :Files<cr>
 nmap <C-e> :Buffers<cr>
 
 "-------------------NERDTree----------------------------
-" Don't let NERDTree Hijack Dash
-let NERDTreeHijackNetrw = 0
-
-"Make it easier to toggle NERDTree
- nmap <C-\> :NERDTreeToggle<cr>
 
 "-------------------NERDCommenter----------------------------
 let g:NERDSpaceDelims = 4
@@ -504,7 +535,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " Remap for rename current word
 nmap <silent> <leader>gr <Plug>(coc-rename)
@@ -565,3 +596,8 @@ set shortmess+=c
 
 let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
 let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
+
+"-------------------misc----------------------------
+augroup everything
+    au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+augroup END
