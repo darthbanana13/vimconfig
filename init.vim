@@ -118,37 +118,14 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 
 " Use tags from Ctags to the max by allowing it to suggest completion
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
+" filetype plugin on
+" set omnifunc=syntaxcomplete#Complete
 
 " Autocomplete match current file, window, buffer, unclosed buffer
 set complete=.,w,b,u
 
 " Map leaving the terminal to something more useful
 " :tnoremap <Esc> <C-\><C-n>
-
-" Highlight all instances of word under cursor, when idle.
-" Useful when studying strange source code.
-" Type z/ to toggle highlighting on/off.
-nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
-function! AutoHighlightToggle()
-  let @/ = ''
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    setl updatetime=4000
-    echo 'Highlight current word: off'
-    return 0
-  else
-    augroup auto_highlight
-      au!
-      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    setl updatetime=500
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
 
 " #VIM Plug
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
@@ -165,7 +142,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Download our favourite theme
-Plug 'zanglg/nova.vim'
+" Plug 'zanglg/nova.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 
@@ -225,7 +202,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Language: PHP
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
-" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' } " Fix random errors for phpcs before activating this plugin again
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
 " Xdebug for PHP
@@ -486,7 +462,7 @@ autocmd VimEnter * silent! :call Autodirectory()<CR>
 "Set the vim background to transparent so the colorscheme
 "from the theme does not get in the way
 hi Normal guibg=NONE ctermbg=NONE
-let g:nova_transparent = 1
+" let g:nova_transparent = 1
 let g:PaperColor_Theme_Options = {
   \   'theme': {
   \     'default': {
