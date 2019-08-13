@@ -15,7 +15,19 @@ set mouse=a
 let mapleader = ','
 
 " Activate line numbers
-set number
+" set number
+"
+" The old aboslute way is boring, let's show hybrid line numbers
+set number relativenumber
+set nu rnu
+
+" Let's set a toggle for line numbers: in insert mode use absolute, use hybrid everywhere else
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup
+
 
 "Automatically write the file when switching buffers.
 set autowriteall
@@ -80,11 +92,18 @@ autocmd InsertEnter * let CursorColumnI = col('.')
 autocmd CursorMovedI * let CursorColumnI = col('.')
 autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
 
-"Move lines with Shift+Up/Down
+" Move lines with Shift+Up/Down
 nnoremap <S-Up> :m-2<CR>
 nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
+
+" Map annoying W and Q as w or q
+cmap WQ wq
+cmap Wq wq
+cmap wQ wq
+cmap W w
+cmap Q q
 
 " Set the updatime for vim and plugins like git gutter
 set updatetime=4000
@@ -102,8 +121,11 @@ set termguicolors
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
-"Autocomplete match current file, window, buffer, unclosed buffer
+" Autocomplete match current file, window, buffer, unclosed buffer
 set complete=.,w,b,u
+
+" Map leaving the terminal to something more useful
+" :tnoremap <Esc> <C-\><C-n>
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -186,7 +208,7 @@ Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
 
 "PHP CS Fixer
-Plug 'stephpy/vim-php-cs-fixer'
+" Plug 'stephpy/vim-php-cs-fixer'
 
 "improve the syntax highlighting
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
@@ -198,13 +220,12 @@ Plug 'arnaud-lb/vim-php-namespace'
 Plug 'osyo-manga/vim-over'
 
 " Add an intellisense engine (and language server) to VIM
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language: PHP
 Plug 'phux/php-doc-modded', {'for': 'php'}
 Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' } " Fix random errors for phpcs before activating this plugin again
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 
 " Xdebug for PHP
@@ -264,6 +285,58 @@ Plug 'moll/vim-bbye'
 " easily search, substitute and abbreviate multiple version of words
 Plug 'tpope/vim-abolish'
 
+" undeline the word under the cursor in the entire file
+Plug 'itchyny/vim-cursorword'
+
+" navigate camelcase & snakecase  easily and also select it
+Plug 'chaoren/vim-wordmotion'
+
+noremap <silent> <leader>w W
+noremap <silent> <leader>b B
+noremap <silent> <leader>e E
+noremap <silent> g<leader>e gE
+sunmap <leader>w
+sunmap <leader>b
+sunmap <leader>e
+sunmap g<leader>e
+
+onoremap <silent> i,w iW
+xnoremap <silent> i,w iW
+onoremap <silent> i,b iB
+xnoremap <silent> i,b iB
+onoremap <silent> i,e iE
+xnoremap <silent> i,e iE
+
+noremap <silent> W w
+noremap <silent> B b
+noremap <silent> E e
+noremap <silent> gE ge
+sunmap W
+sunmap B
+sunmap E
+sunmap gE
+
+onoremap <silent> iW iw
+xnoremap <silent> iW iw
+onoremap <silent> iB ib
+xnoremap <silent> iB ib
+onoremap <silent> iE ie
+xnoremap <silent> iE ie
+
+inoremap <silent> <C-Left> <S-Left>
+inoremap <silent> <C-Right> <S-Right>
+
+let g:wordmotion_mappings = {
+\ 'w' : 'w',
+\ 'b' : 'b',
+\ 'e' : 'e',
+\ 'ge' : 'e',
+\ 'aw' : 'aw',
+\ 'iw' : 'iw',
+\ '<C-R><C-W>' : '<C-R><C-w>'
+\ }
+let g:wordmotion_spaces = '_-.'
+
 " Undo tree
 Plug 'mbbill/undotree'
 nnoremap <F4> :UndotreeToggle<cr>
@@ -276,6 +349,20 @@ let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
 " smart search highligting
 let g:CoolTotalMatches = 1
 Plug 'romainl/vim-cool'
+
+" For markdown language
+Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
+let g:mkdp_path_to_chrome = 'chromium-browser'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': ['markdown'] }
+let g:mkdp_auto_close = 0
+" Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
+" Plug 'junegunn/goyo.vim', {'for': 'markdown'}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
+Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
+
+
+" Better use of terminal manipulation
+Plug 'kassio/neoterm'
 
 " Initialize plugin system
 call plug#end()
@@ -445,10 +532,10 @@ let g:grep_cmd_opts = '--line-numbers --noheading'
 
 "-------------------php-cs-fixer----------------------------
 " Change the maping for beautifying a file
-nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
+" nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
 
 "PHP Fixer level
-let g:php_cs_fixer_level = "psr2"
+" let g:php_cs_fixer_level = "psr2"
 
 "-------------------vim-gitgutter----------------------------
 " Don't set up any key shortcuts yet
@@ -463,20 +550,23 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " Show the errors in a Vim window
-let g:ale_open_list = 1
+" let g:ale_open_list = 1
 let g:ale_keep_list_window_open=0
 let g:ale_set_quickfix=1
 let g:ale_list_window_size = 5
 let g:ale_fixers = {}
 let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
+" let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['php'] = ['phpcbf', 'remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
 " let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
-" let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
-" let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
+let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
 " let g:ale_fixers['go'] = ['gofmt', 'goimports']
 " let g:ale_fixers['json'] = ['fixjson', 'prettier']
-let g:ale_fix_on_save = 1
+" let g:ale_fix_on_save = 1
+" let g:ale_php_phpcs_use_global = 1
+let g:ale_php_phpcs_standard='.php_cs.dist'
 
 "-------------------php-namespace----------------------------
 
@@ -596,6 +686,9 @@ set shortmess+=c
 
 let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
 let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
+
+"-------------------neoterm----------------------------
+let g:neoterm_autoscroll = 1
 
 "-------------------misc----------------------------
 augroup everything
