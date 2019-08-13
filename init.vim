@@ -667,6 +667,6 @@ let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
 let g:neoterm_autoscroll = 1
 
 "-------------------misc----------------------------
-augroup everything
-    au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-augroup END
+" augroup everything
+    " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+" augroup END
