@@ -15,8 +15,6 @@ set mouse=a
 let mapleader = ','
 
 " Activate line numbers
-" set number
-"
 " The old aboslute way is boring, let's show hybrid line numbers
 set number relativenumber
 set nu rnu
@@ -99,11 +97,11 @@ inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
 
 " Map annoying W and Q as w or q
-cmap WQ wq
-cmap Wq wq
-cmap wQ wq
-cmap W w
-cmap Q q
+" cmap WQ wq
+" cmap Wq wq
+" cmap wQ wq
+" cmap W w
+" cmap Q q
 
 " Set the updatime for vim and plugins like git gutter
 set updatetime=4000
@@ -122,7 +120,7 @@ set termguicolors
 " set omnifunc=syntaxcomplete#Complete
 
 " Autocomplete match current file, window, buffer, unclosed buffer
-set complete=.,w,b,u
+" set complete=.,w,b,u
 
 " Map leaving the terminal to something more useful
 " :tnoremap <Esc> <C-\><C-n>
@@ -167,7 +165,7 @@ let g:NERDTreeAutoDeleteBuffer=1
  " nnoremap <leader>N :NERDTreeFind<cr>
 
 " Quickly find files
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 "For the silver searcher plugin
@@ -193,16 +191,14 @@ Plug 'StanAngeloff/php.vim', {'for': 'php'}
 "Auto-add use statement
 Plug 'arnaud-lb/vim-php-namespace'
 
-"Seach as you type
-Plug 'osyo-manga/vim-over'
-
 " Add an intellisense engine (and language server) to VIM
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language: PHP
 Plug 'phux/php-doc-modded', {'for': 'php'}
-Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
+" Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
+let g:php_manual_online_search_shortcut = '<C-i>'
 
 " Xdebug for PHP
 Plug 'joonty/vdebug'
@@ -264,7 +260,7 @@ Plug 'tpope/vim-abolish'
 " undeline the word under the cursor in the entire file
 Plug 'itchyny/vim-cursorword'
 
-" navigate camelcase & snakecase  easily and also select it
+" navigate camelCase & snake_case  easily and also select it
 Plug 'chaoren/vim-wordmotion'
 
 noremap <silent> <leader>w W
@@ -306,7 +302,7 @@ let g:wordmotion_mappings = {
 \ 'w' : 'w',
 \ 'b' : 'b',
 \ 'e' : 'e',
-\ 'ge' : 'e',
+\ 'ge' : 'ge',
 \ 'aw' : 'aw',
 \ 'iw' : 'iw',
 \ '<C-R><C-W>' : '<C-R><C-w>'
@@ -319,11 +315,11 @@ nnoremap <F4> :UndotreeToggle<cr>
 
 
 " Can't be bothered setting up highlighting for other languages
-Plug 'sheerun/vim-polyglot', {'do': './build'}
-let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
+" Plug 'sheerun/vim-polyglot', {'do': './build'}
+" let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
 
-" smart search highligting
-let g:CoolTotalMatches = 1
+" " smart search highligting
+" let g:CoolTotalMatches = 1
 Plug 'romainl/vim-cool'
 
 " For markdown language
@@ -339,6 +335,9 @@ Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
 
 " Better use of terminal manipulation
 Plug 'kassio/neoterm'
+
+" Display function signatures from completion
+Plug 'Shougo/echodoc.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -571,10 +570,6 @@ nnoremap <leader>m :call pdv#DocumentWithSnip()<CR>
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-"-------------------vim-over----------------------------
-nnoremap <leader>f :OverCommandLine<CR>%s/
-vnoremap <leader>f :OverCommandLine<CR>%s/<C-R>"/
 
 "-------------------COC----------------------------
 " Required for operations modifying multiple buffers like rename.
