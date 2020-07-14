@@ -24,8 +24,7 @@ augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup
-
+augroup 
 
 "Automatically write the file when switching buffers.
 set autowriteall
@@ -109,6 +108,9 @@ set updatetime=4000
 " Set default encoding
 set encoding=utf-8
 scriptencoding utf-8
+
+" Press // to search for the highlighted text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Set true color in (n)vim
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -206,9 +208,6 @@ Plug 'joonty/vdebug'
 " Put wrong things in the gutter
 Plug 'neomake/neomake'
 
-" outliner
-Plug 'majutsushi/tagbar'
-
 "Expand selected region
 Plug 'terryma/vim-expand-region'
 
@@ -239,9 +238,6 @@ Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'}
 " Navigate fast in the window
 Plug 'easymotion/vim-easymotion'
 
-" To easily see blocks of code
-Plug 'nathanaelkane/vim-indent-guides'
-
 " For tmux
 " Plug 'edkolev/tmuxline.vim'
 
@@ -256,7 +252,7 @@ Plug 'moll/vim-bbye'
 
 " easily search, substitute and abbreviate multiple version of words
 Plug 'tpope/vim-abolish'
-
+ 
 " undeline the word under the cursor in the entire file
 Plug 'itchyny/vim-cursorword'
 
@@ -325,12 +321,11 @@ Plug 'romainl/vim-cool'
 " For markdown language
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': ['markdown'] }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install', 'for': ['markdown'] }
 let g:mkdp_auto_close = 0
 " Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 " Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
-Plug 'tenfyzhong/tagbar-markdown.vim', {'for': 'markdown'}
 
 
 " Better use of terminal manipulation
@@ -338,6 +333,18 @@ Plug 'kassio/neoterm'
 
 " Display function signatures from completion
 Plug 'Shougo/echodoc.vim'
+
+" Auto set shift/tab with depending on the current open file
+Plug 'tpope/vim-sleuth'
+
+" Easily switch between vim and tmux splits
+Plug 'christoomey/vim-tmux-navigator'
+
+" Syntax highlight & more for Nginx
+Plug 'chr4/nginx.vim'
+
+" Emacs killring (yank ring) for VIM
+Plug 'maxbrunsfeld/vim-yankstack'
 
 " Initialize plugin system
 call plug#end()
@@ -665,3 +672,34 @@ let g:neoterm_autoscroll = 1
 " augroup everything
     " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 " augroup END
+
+"-------------------vdebug----------------------------
+
+if !exists('g:vdebug_options')
+    let g:vdebug_options = {}
+endif
+
+let g:vdebug_options = {
+    \ 'simplified_status': 1,
+    \ 'debug_file': '',
+    \ 'debug_file_level': 0,
+    \ 'watch_window_style': 'expanded',
+    \ 'marker_default': '⬦',
+    \ 'continuous_mode': 1,
+    \ 'ide_key': 'PHPSTORM',
+    \ 'break_on_open': 1,
+    \ 'sign_current': '▶',
+    \ 'on_close': 'stop',
+    \ 'path_maps': {"/var/www": "/home/radu.margineanu/Projects/release-ci-cd"},
+    \ 'auto_start': 1,
+    \ 'layout': 'vertical',
+    \ 'sign_disabled': '▌▌',
+    \ 'sign_breakpoint': '▷',
+    \ 'marker_closed_tree': '▸',
+    \ 'background_listener': 1,
+    \ 'timeout': 20,
+    \ 'port': 9000,
+    \ 'marker_open_tree': '▾',
+    \ 'debug_window_level': 0,
+    \ 'server': ''
+    \}
