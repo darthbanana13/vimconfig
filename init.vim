@@ -602,14 +602,16 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-" Remap for rename current word
-nmap <silent> <leader>gr <Plug>(coc-rename)
+nmap <silent> gR <Plug>(coc-rename) 
+xmap <silent> gf  <Plug>(coc-format-selected)
+nmap <silent> gf  <Plug>(coc-format-selected)
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 function! s:show_documentation()
   if &filetype == 'vim'
@@ -621,7 +623,7 @@ endfunction
 
 " Using CocList
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
 
 " Use `:Format` for format current buffer
 command! -nargs=0 Format :call CocAction('format')
