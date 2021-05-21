@@ -112,7 +112,7 @@ scriptencoding utf-8
 " Press // to search for the highlighted text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-" Set true color in (n)vim
+" Set true color in (neo)vim
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
@@ -124,9 +124,18 @@ set termguicolors
 " Autocomplete match current file, window, buffer, unclosed buffer
 " set complete=.,w,b,u
 
+"--------------------Terminal mode Config------------------------
 " Map leaving the terminal to something more useful
-" :tnoremap <Esc> <C-\><C-n>
+:tnoremap <C-s> <C-\><C-n>
 
+" Map changing splits to CTRL+h,j,k,l
+" !!! WARNING !!! This means you can't use those CTRL+ characters in the terminal
+:tnoremap <C-h> <C-\><C-N><C-w>h
+:tnoremap <C-j> <C-\><C-N><C-w>j
+:tnoremap <C-k> <C-\><C-N><C-w>k
+:tnoremap <C-l> <C-\><C-N><C-w>l
+
+"--------------------VIM Plug------------------------
 " #VIM Plug
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
