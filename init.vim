@@ -12,7 +12,7 @@ set backspace=indent,eol,start
 set mouse=a
 
 " Define leader key , instead of \
-let mapleader = ','
+let mapleader=','
 
 " Activate line numbers
 " The old aboslute way is boring, let's show hybrid line numbers
@@ -26,26 +26,25 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup 
 
-"Automatically write the file when switching buffers.
+" Automatically write the file when switching buffers.
 set autowriteall
 
-"Tabs and spaces
+" Tabs and spaces
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-set expandtab                       "Use spaces instead of tabs
+" Use spaces instead of tabs
+set expandtab
 
-set undofile
-set undodir=$HOME/.local/share/undo
 if has("persistent_undo")
-    set undodir=~/.undodir/
-    set undofile
+    silent set undodir
+    silent set undofile
 endif
 
 " Copy to system clipboard (+, not *)
 " set clipboard=unnamedplus
 
-"Map delete to black hole register
+" Map delete to black hole register
 nnoremap <Leader>d "_d
 vnoremap <Leader>d "_d
 
@@ -95,13 +94,6 @@ nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
 
-" Map annoying W and Q as w or q
-" cmap WQ wq
-" cmap Wq wq
-" cmap wQ wq
-" cmap W w
-" cmap Q q
-
 " Set the updatime for vim and plugins like git gutter
 set updatetime=4000
 
@@ -117,12 +109,11 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 
-" Use tags from Ctags to the max by allowing it to suggest completion
-" filetype plugin on
-" set omnifunc=syntaxcomplete#Complete
+" Remove all trailing whitespaces
+nnoremap <Leader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
-" Autocomplete match current file, window, buffer, unclosed buffer
-" set complete=.,w,b,u
+" Set syntax highlighting for Jenkinsfile to Groovy
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
 "--------------------Terminal mode Config------------------------
 " Map leaving the terminal to something more useful
@@ -144,7 +135,7 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall
 endif
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
-call plug#begin('~/.vim/plugged')
+call plug#begin(stdpath('data') . '/plugged')
 
 " Airline :)
 Plug 'vim-airline/vim-airline'
@@ -161,19 +152,19 @@ Plug 'tpope/vim-fugitive'
 " Better file browsing
 Plug 'tpope/vim-vinegar'
 
-Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-" Don't let NERDTree Hijack Dash
-let g:NERDTreeHijackNetrw = 0
-let g:NERDTreeUpdateOnCursorHold = 0
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeWinSize = 40
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeCascadeSingleChildDir=0
-let g:NERDTreeAutoDeleteBuffer=1
+" Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+" " Don't let NERDTree Hijack Dash
+" let g:NERDTreeHijackNetrw = 0
+" let g:NERDTreeUpdateOnCursorHold = 0
+" let g:NERDTreeQuitOnOpen = 1
+" let g:NERDTreeWinSize = 40
+" let g:NERDTreeMinimalUI=1
+" let g:NERDTreeCascadeSingleChildDir=0
+" let g:NERDTreeAutoDeleteBuffer=1
 
-"Make it easier to toggle NERDTree
- nmap <C-\> :NERDTreeToggle<cr>
- " nnoremap <leader>N :NERDTreeFind<cr>
+" "Make it easier to toggle NERDTree
+ " nmap <C-\> :NERDTreeToggle<cr>
+ " " nnoremap <leader>N :NERDTreeFind<cr>
 
 " Quickly find files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -185,7 +176,7 @@ Plug 'ggreer/the_silver_searcher'
 " Plug 'skwp/greplace.vim'
 
 " Ultisnips engine
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 
 "Snippets are separated from the engine. The following line adds them
 Plug 'honza/vim-snippets'
@@ -210,9 +201,6 @@ Plug 'phux/php-doc-modded', {'for': 'php'}
 " Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
 Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:php_manual_online_search_shortcut = '<C-i>'
-
-" Xdebug for PHP
-Plug 'joonty/vdebug'
 
 " Put wrong things in the gutter
 Plug 'neomake/neomake'
@@ -261,6 +249,10 @@ Plug 'moll/vim-bbye'
 
 " easily search, substitute and abbreviate multiple version of words
 Plug 'tpope/vim-abolish'
+
+" Until this is fixed: https://github.com/neovim/neovim/issues/1496#issuecomment-63695965
+" This is a workaround for editing files as sudo
+Plug 'lambdalisue/suda.vim' 
  
 " undeline the word under the cursor in the entire file
 Plug 'itchyny/vim-cursorword'
@@ -316,7 +308,7 @@ let g:wordmotion_spaces = '_-.'
 
 " Undo tree
 Plug 'mbbill/undotree'
-nnoremap <F4> :UndotreeToggle<cr>
+nnoremap <F7> :UndotreeToggle<cr>
 
 
 " Can't be bothered setting up highlighting for other languages
@@ -339,6 +331,21 @@ Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasti
 
 " Better use of terminal manipulation
 Plug 'kassio/neoterm'
+
+" Use VSCode way of debugging of languages
+Plug 'puremourning/vimspector'
+" Workarounds for neovim
+
+" for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval
+" As soon as nvim0.5 hits this will not be necesary:
+" :VimspectorEval & :VimspectorWatch for prompt buffer
+"
+" For WinBar :VimspectorShowOutput :VimspectorReset
+"
+let g:vimspector_enable_mappings = 'HUMAN'
 
 " Display function signatures from completion
 Plug 'Shougo/echodoc.vim'
@@ -561,7 +568,7 @@ let g:ale_php_phpcs_standard='.php_cs.dist'
 
 "-------------------php-namespace----------------------------
 
-"add use statement
+" add use statement
 function! IPhpInsertUse()
     call PhpInsertUse()
     call feedkeys('a',  'n')
@@ -569,7 +576,7 @@ endfunction
 autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
 autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
 
-"addd fully qulified class name
+" add fully qulified class name
 function! IPhpExpandClass()
     call PhpExpandClass()
     call feedkeys('a', 'n')
@@ -683,34 +690,3 @@ let g:neoterm_autoscroll = 1
 " augroup everything
     " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 " augroup END
-
-"-------------------vdebug----------------------------
-
-if !exists('g:vdebug_options')
-    let g:vdebug_options = {}
-endif
-
-let g:vdebug_options = {
-    \ 'simplified_status': 1,
-    \ 'debug_file': '',
-    \ 'debug_file_level': 0,
-    \ 'watch_window_style': 'expanded',
-    \ 'marker_default': '⬦',
-    \ 'continuous_mode': 1,
-    \ 'ide_key': 'PHPSTORM',
-    \ 'break_on_open': 1,
-    \ 'sign_current': '▶',
-    \ 'on_close': 'stop',
-    \ 'path_maps': {"/var/www": "/home/radu.margineanu/Projects/release-ci-cd"},
-    \ 'auto_start': 1,
-    \ 'layout': 'vertical',
-    \ 'sign_disabled': '▌▌',
-    \ 'sign_breakpoint': '▷',
-    \ 'marker_closed_tree': '▸',
-    \ 'background_listener': 1,
-    \ 'timeout': 20,
-    \ 'port': 9000,
-    \ 'marker_open_tree': '▾',
-    \ 'debug_window_level': 0,
-    \ 'server': ''
-    \}
