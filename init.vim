@@ -114,6 +114,12 @@ nnoremap <Leader>t :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " Set syntax highlighting for Jenkinsfile to Groovy
 au BufNewFile,BufRead Jenkinsfile setf groovy
+au BufNewFile,BufRead *.sql.j2 setf sql
+au BufNewFile,BufRead *.service.j2 setf systemd
+
+" spellcheck
+" set spell
+" set spelllang=en_us
 
 "--------------------Terminal mode Config------------------------
 " Map leaving the terminal to something more useful
@@ -361,6 +367,8 @@ Plug 'chr4/nginx.vim'
 
 " Emacs killring (yank ring) for VIM
 Plug 'maxbrunsfeld/vim-yankstack'
+
+Plug 'jakski/vim-yaml', {'do': ':UpdateRemotePlugins'}
 
 " Initialize plugin system
 call plug#end()
