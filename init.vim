@@ -150,6 +150,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Download our favourite theme
 " Plug 'zanglg/nova.vim'
 Plug 'NLKNguyen/papercolor-theme'
+
 Plug 'etdev/vim-hexcolor', {'for': ['css', 'vim']}
 
 "Best git wrapper form Vim
@@ -328,7 +329,7 @@ Plug 'romainl/vim-cool'
 " For markdown language
 Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
 let g:mkdp_path_to_chrome = 'chromium-browser'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install', 'for': ['markdown'] }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': ['markdown', 'vim-plug'] }
 let g:mkdp_auto_close = 0
 " Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
 " Plug 'junegunn/goyo.vim', {'for': 'markdown'}
@@ -376,7 +377,6 @@ call plug#end()
 "--------------------AirLine Config------------------------
 " air-line
 let g:airline_powerline_fonts = 1
-" let g:airline_theme='powerlineish'
 let g:airline_theme='papercolor'
 " let g:airline_statusline_ontop=1
 let g:airline#extensions#tabline#enabled = 1
@@ -406,7 +406,6 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
-
 
 "-------------------Searching--------------------------------
 
@@ -491,7 +490,6 @@ autocmd VimEnter * silent! :call Autodirectory()<CR>
 "-------------------Visuals----------------------------
 "Set the vim background to transparent so the colorscheme
 "from the theme does not get in the way
-hi Normal guibg=NONE ctermbg=NONE
 " let g:nova_transparent = 1
 let g:PaperColor_Theme_Options = {
   \   'theme': {
@@ -505,6 +503,7 @@ let g:PaperColor_Theme_Options = {
 " colorscheme nova
 set background=dark " Setting dark mode
 colorscheme PaperColor
+hi Normal guibg=NONE ctermbg=NONE
 
 "-------------------Split Management----------------------------
 set splitbelow
