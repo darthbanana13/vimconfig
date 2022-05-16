@@ -191,22 +191,18 @@ Plug 'honza/vim-snippets'
 "Delete/Change/Add surroundings
 Plug 'tpope/vim-surround'
 
-"PHP CS Fixer
-" Plug 'stephpy/vim-php-cs-fixer'
-
 "improve the syntax highlighting
-Plug 'StanAngeloff/php.vim', {'for': 'php'}
+" Plug 'StanAngeloff/php.vim', {'for': 'php'}
 
 "Auto-add use statement
-Plug 'arnaud-lb/vim-php-namespace'
+" Plug 'arnaud-lb/vim-php-namespace'
 
 " Add an intellisense engine (and language server) to VIM
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language: PHP
-Plug 'phux/php-doc-modded', {'for': 'php'}
-" Plug 'phpactor/phpactor', {'for': 'php', 'do': ':call phpactor#Update()'}
-Plug 'alvan/vim-php-manual', {'for': 'php'}
+" Plug 'phux/php-doc-modded', {'for': 'php'}
+" Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:php_manual_online_search_shortcut = '<C-i>'
 
 " Put wrong things in the gutter
@@ -237,7 +233,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'w0rp/ale'
 
 " Mustache template system, required for pdv |PHP Documentor
-Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'}
+" Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'}
 
 " Navigate fast in the window
 Plug 'easymotion/vim-easymotion'
@@ -368,8 +364,6 @@ Plug 'chr4/nginx.vim'
 
 " Emacs killring (yank ring) for VIM
 Plug 'maxbrunsfeld/vim-yankstack'
-
-Plug 'jakski/vim-yaml', {'do': ':UpdateRemotePlugins'}
 
 " Initialize plugin system
 call plug#end()
@@ -603,6 +597,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 "-------------------COC----------------------------
 " Required for operations modifying multiple buffers like rename.
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint', 'coc-pyright']
 set hidden
 set signcolumn=yes
 
