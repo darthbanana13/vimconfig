@@ -158,6 +158,9 @@ Plug 'tpope/vim-fugitive'
 
 " Better file browsing
 Plug 'tpope/vim-vinegar'
+" Don't hide files in netrw
+let g:netrw_list_hide=''
+let g:netrw_altv=1
 
 " Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 " " Don't let NERDTree Hijack Dash
@@ -322,14 +325,25 @@ nnoremap <F7> :UndotreeToggle<cr>
 " let g:CoolTotalMatches = 1
 Plug 'romainl/vim-cool'
 
-" For markdown language
-Plug 'reedes/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
-let g:mkdp_path_to_chrome = 'chromium-browser'
+""" For markdown language """
+
+" Check for spelling mistakes
+Plug 'preservim/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
+let g:lexical#spelllang = ['en_us']
+
+" Preview markdown files
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': ['markdown', 'vim-plug'] }
 let g:mkdp_auto_close = 0
-" Plug 'gabrielelana/vim-markdown', {'for': ['markdown']}
-" Plug 'junegunn/goyo.vim', {'for': 'markdown'}
-Plug 'plasticboy/vim-markdown', {'for': ['markdown'], 'as': 'vim-markdown-plasticboy'}
+let g:mkdp_path_to_chrome = 'chromium-browser'
+
+" For syntax highlighting and conversion
+Plug 'vim-pandoc/vim-pandoc', {'for': ['markdown']}
+Plug 'vim-pandoc/vim-pandoc-syntax', {'for': ['markdown']}
+
+" Generate table of contents for markdown
+Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
+
+""" End markdown """
 
 
 " Better use of terminal manipulation
@@ -597,7 +611,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 "-------------------COC----------------------------
 " Required for operations modifying multiple buffers like rename.
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint', 'coc-pyright']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint']
 set hidden
 set signcolumn=yes
 
