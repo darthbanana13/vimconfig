@@ -611,7 +611,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 "-------------------COC----------------------------
 " Required for operations modifying multiple buffers like rename.
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint', 'coc-yaml', 'coc-tsserver']
 set hidden
 set signcolumn=yes
 
