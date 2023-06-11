@@ -4,7 +4,7 @@ syntax enable
 " Don't let vim work in legacy VI mode
 set nocompatible
 
-" Delete & Backspace keys can now deletelete indentation, EOL chacters, and
+" Delete & Backspace keys can now delete indentation, EOL characters, and
 " start of the line char
 set backspace=indent,eol,start
 
@@ -15,7 +15,7 @@ set mouse=a
 let mapleader=','
 
 " Activate line numbers
-" The old aboslute way is boring, let's show hybrid line numbers
+" The old absolute way is boring, let's show hybrid line numbers
 set number relativenumber
 set nu rnu
 
@@ -94,7 +94,7 @@ nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
 
-" Set the updatime for vim and plugins like git gutter
+" Set the updatetime for vim and plugins like git gutter
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
@@ -142,6 +142,14 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     autocmd!
     autocmd VimEnter * PlugInstall
 endif
+
+" To not flag some spelling
+" cSpell:ignore zanglg etdev tpope junegunn ggreer skwp honza arnaud scrooloose
+" cSpell:ignore neoclide terryma bfredl bbye suda itchyny mbbill romainl iamcco
+" cSpell:ignore mkdp mzlogin kassio Shougo christoomey maxbrunsfeld linenr m'gv
+" cSpell:ignore noheading gofmt phpcbf goimports phpcs mygroup funcobj noinsert
+" cSpell:ignore pyright
+
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin(stdpath('data') . '/plugged')
 
@@ -149,7 +157,7 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Download our favourite theme
+" Download our favorite theme
 " Plug 'zanglg/nova.vim'
 Plug 'NLKNguyen/papercolor-theme'
 
@@ -164,20 +172,6 @@ Plug 'tpope/vim-vinegar'
 let g:netrw_list_hide=''
 let g:netrw_altv=1
 
-" Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-" " Don't let NERDTree Hijack Dash
-" let g:NERDTreeHijackNetrw = 0
-" let g:NERDTreeUpdateOnCursorHold = 0
-" let g:NERDTreeQuitOnOpen = 1
-" let g:NERDTreeWinSize = 40
-" let g:NERDTreeMinimalUI=1
-" let g:NERDTreeCascadeSingleChildDir=0
-" let g:NERDTreeAutoDeleteBuffer=1
-
-" "Make it easier to toggle NERDTree
- " nmap <C-\> :NERDTreeToggle<cr>
- " " nnoremap <leader>N :NERDTreeFind<cr>
-
 " Quickly find files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -185,29 +179,16 @@ Plug 'junegunn/fzf.vim'
 "For the silver searcher plugin
 Plug 'ggreer/the_silver_searcher'
 
-" Plug 'skwp/greplace.vim'
-
-" Ultisnips engine
-" Plug 'SirVer/ultisnips'
-
 "Snippets are separated from the engine. The following line adds them
 Plug 'honza/vim-snippets'
 
 "Delete/Change/Add surroundings
 Plug 'tpope/vim-surround'
 
-"improve the syntax highlighting
-" Plug 'StanAngeloff/php.vim', {'for': 'php'}
-
-"Auto-add use statement
-" Plug 'arnaud-lb/vim-php-namespace'
-
 " Add an intellisense engine (and language server) to VIM
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language: PHP
-" Plug 'phux/php-doc-modded', {'for': 'php'}
-" Plug 'alvan/vim-php-manual', {'for': 'php'}
 let g:php_manual_online_search_shortcut = '<C-i>'
 
 " Put wrong things in the gutter
@@ -237,22 +218,13 @@ Plug 'airblade/vim-gitgutter'
 " Show syntactic errors (like a linter)
 Plug 'w0rp/ale'
 
-" Mustache template system, required for pdv |PHP Documentor
-" Plug 'tobyS/vmustache' | Plug 'tobyS/pdv', {'for': 'php'}
-
 " Navigate fast in the window
 Plug 'easymotion/vim-easymotion'
-
-" For tmux
-" Plug 'edkolev/tmuxline.vim'
-
-" For prompt
-" Plug  'edkolev/promptline.vim'
 
 " For navigating registers
 Plug 'bfredl/nvim-miniyank'
 
-" Close the currentent bufferer withoutut affecting other windowows
+" Close the current buffer without affecting other windows
 Plug 'moll/vim-bbye'
 
 " easily search, substitute and abbreviate multiple version of words
@@ -262,7 +234,7 @@ Plug 'tpope/vim-abolish'
 " This is a workaround for editing files as sudo
 Plug 'lambdalisue/suda.vim' 
  
-" undeline the word under the cursor in the entire file
+" underline the word under the cursor in the entire file
 Plug 'itchyny/vim-cursorword'
 
 " navigate camelCase & snake_case  easily and also select it
@@ -318,20 +290,15 @@ let g:wordmotion_spaces = '_-.'
 Plug 'mbbill/undotree'
 nnoremap <F7> :UndotreeToggle<cr>
 
-
-" Can't be bothered setting up highlighting for other languages
-" Plug 'sheerun/vim-polyglot', {'do': './build'}
-" let g:polyglot_disabled = ['php', 'go', 'markdown', 'liquid', 'javascript']
-
-" " smart search highligting
+" " smart search highlighting
 " let g:CoolTotalMatches = 1
 Plug 'romainl/vim-cool'
 
 """ For markdown language """
 
 " Check for spelling mistakes
-Plug 'preservim/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
-let g:lexical#spelllang = ['en_us']
+" Plug 'preservim/vim-lexical', {'for': ['text', 'markdown', 'gitcommit']}
+" let g:lexical#spelllang = ['en_us']
 
 " Preview markdown files
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': ['markdown', 'vim-plug'] }
@@ -347,7 +314,6 @@ Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
 
 """ End markdown """
 
-
 " Better use of terminal manipulation
 Plug 'kassio/neoterm'
 
@@ -359,10 +325,6 @@ Plug 'puremourning/vimspector'
 nmap <Leader>di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
 xmap <Leader>di <Plug>VimspectorBalloonEval
-" As soon as nvim0.5 hits this will not be necesary:
-" :VimspectorEval & :VimspectorWatch for prompt buffer
-"
-" For WinBar :VimspectorShowOutput :VimspectorReset
 "
 let g:vimspector_enable_mappings = 'HUMAN'
 
@@ -388,7 +350,6 @@ call plug#end()
 " air-line
 let g:airline_powerline_fonts = 1
 let g:airline_theme='papercolor'
-" let g:airline_statusline_ontop=1
 let g:airline#extensions#tabline#enabled = 1
 
 if !exists('g:airline_symbols')
@@ -509,7 +470,7 @@ let g:PaperColor_Theme_Options = {
   \   }
   \ }
 
-" Actualy apply the colorscheme
+" Actually apply the colorscheme
 " colorscheme nova
 set background=dark " Setting dark mode
 colorscheme PaperColor
@@ -545,13 +506,6 @@ imap <C-_> <C-o><plug>NERDCommenterToggle
 set grepprg=ag
 let g:grep_cmd_opts = '--line-numbers --noheading'
 
-"-------------------php-cs-fixer----------------------------
-" Change the maping for beautifying a file
-" nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
-
-"PHP Fixer level
-" let g:php_cs_fixer_level = "psr2"
-
 "-------------------vim-gitgutter----------------------------
 " Don't set up any key shortcuts yet
 let g:gitgutter_map_keys = 0
@@ -571,49 +525,19 @@ let g:ale_set_quickfix=1
 let g:ale_list_window_size = 5
 let g:ale_fixers = {}
 let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-" let g:ale_fixers['php'] = ['phpcbf', 'php_cs_fixer', 'remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['php'] = ['phpcbf', 'remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['vim'] = ['remove_trailing_lines', 'trim_whitespace']
-" let g:ale_fixers['notes'] = ['remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['markdown'] = ['remove_trailing_lines', 'trim_whitespace']
 let g:ale_fixers['notes.markdown'] = ['remove_trailing_lines', 'trim_whitespace']
-" let g:ale_fixers['go'] = ['gofmt', 'goimports']
-" let g:ale_fixers['json'] = ['fixjson', 'prettier']
+let g:ale_fixers['go'] = ['gofmt', 'goimports']
+let g:ale_fixers['json'] = ['fixjson', 'prettier']
 " let g:ale_fix_on_save = 1
 " let g:ale_php_phpcs_use_global = 1
 let g:ale_php_phpcs_standard='.php_cs.dist'
 
-"-------------------php-namespace----------------------------
-
-" add use statement
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
-
-" add fully qulified class name
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a', 'n')
-endfunction
-autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
-
-"-------------------pdv----------------------------
-
-let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
-nnoremap <leader>m :call pdv#DocumentWithSnip()<CR>
-
-"-------------------ultisnip----------------------------
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
 "-------------------COC----------------------------
 " Required for operations modifying multiple buffers like rename.
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint', 'coc-yaml', 'coc-tsserver', 'coc-pyright']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint', 'coc-yaml', 'coc-tsserver', 'coc-pyright', 'coc-spell-checker']
 set hidden
 set signcolumn=yes
 
@@ -648,7 +572,7 @@ endif
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
+" Remap keys for goto(s)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -800,7 +724,3 @@ let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
 "-------------------neoterm----------------------------
 let g:neoterm_autoscroll = 1
 
-"-------------------misc----------------------------
-" augroup everything
-    " au BufWritePost * silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
-" augroup END
