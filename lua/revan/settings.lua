@@ -1,5 +1,27 @@
 -- Show relative line numbers to where the cursor is for easy jumping
+vim.o.number = true
 vim.o.relativenumber = true
+
+-- Customize line numbers, in insert mode use absolute, use relative everywhere else
+local numberToggleGroup = vim.api.nvim_create_augroup('numberToggle', { clear = true })
+vim.api.nvim_create_autocmd(
+  { 'BufEnter', 'FocusGained', 'InsertLeave' },
+  {
+    callback = function(ev)
+      vim.o.relativenumber = true
+    end,
+    group = numberToggleGroup,
+  }
+)
+vim.api.nvim_create_autocmd(
+  { 'BufLeave', 'FocusLost', 'InsertEnter' },
+  {
+    callback = function(ev)
+      vim.o.relativenumber = false
+    end,
+    group = numberToggleGroup,
+  }
+)
 
 -- Use spaces instead of tabs
 vim.o.expandtab = true
@@ -23,4 +45,6 @@ vim.o.inccommand = 'split'
 
 -- Do case insensitive search unless a capital letter is added to the search term
 vim.o.smartcase = true
--- print(vim.o.relativenumber)
+
+-- Set true/24-bit color
+vim.o.termguicolors = true
