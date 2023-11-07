@@ -78,27 +78,6 @@ return {
         -- custom_colors = nil,
         custom_colors = function(colors)
           -- PaperColor dark variant colors
-          local paperColorDarkold = {
-              bg = "#1c1c1c", -- background
-              fg = "#d0d0d0", -- foreground
-              red = "#af005f", -- red
-              green = "#a6e22e", -- vivid green
-              yellow = "#d7af5f", -- yellow
-              blue = "#5fafd7", -- blue
-              magenta = "#af87d7", -- magenta
-              cyan = "#00afaf", -- cyan
-              white = "#d0d0d0", -- white
-              black = "#1c1c1c", -- black
-              orange = "#ffaf00", -- orange
-              pink = "#ff5faf", -- pink
-              comment_grey = "#808080", -- comment grey
-              gutter_fg_grey = "#4e4e4e", -- gutter foreground grey
-              cursor_grey = "#2e2e2e", -- cursor grey
-              visual_grey = "#444444", -- visual grey
-              menu_grey = "#3e3e3e", -- menu grey
-              special_grey = "#3a3a3a", -- special grey
-          }
-
           local paperColorDark = {
               bg = "#1c1c1c", -- background
               fg = "#e7e9db", -- foreground, slightly off-white for better contrast
@@ -114,7 +93,7 @@ return {
               orange = "#f99157", -- vivid orange
               pink = "#ff9cac", -- vivid pink
               comment_grey = "#808080", -- comment grey
-              gutter_fg_grey = "#4b5263", -- gutter foreground grey
+              gutter_fg_grey = "#abb2bf", -- gutter foreground grey
               cursor_grey = "#2c2f3e", -- cursor grey
               visual_grey = "#3a3e4d", -- visual grey
               menu_grey = "#3e4451", -- menu grey
