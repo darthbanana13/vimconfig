@@ -13,3 +13,6 @@ vim.keymap.set({'n', 'v'}, '<Leader>c', '"+d', { remap = true })
 -- Move lines easily with Shift+Up/Down
 vim.keymap.set({'n', 'i'}, '<S-Up>', ':m-2<CR>', { remap = true })
 vim.keymap.set({'n', 'i'}, '<S-Down>', ':m+<CR>', { remap = true })
+
+-- Press // to search for the highlighted text
+vim.keymap.set('v', '//', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], { remap = true })
