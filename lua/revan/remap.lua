@@ -1,4 +1,7 @@
+-- Map the leader
 vim.g.mapleader = ','
+
+-- Easier interaction with the clipboard that does not mess the registers
 vim.keymap.set({'n', 'v'}, '<Leader>d', '"_d', { remap = true })
 vim.keymap.set({'n', 'v'}, '<Leader>p', '"+p', { remap = true })
 vim.keymap.set({'n', 'v'}, '<Leader>P', '"+P', { remap = true })
