@@ -36,6 +36,11 @@ set softtabstop=4
 " Use spaces instead of tabs
 set expandtab
 
+" Don't lose undo if abandoining a buffer
+set hidden
+" Draw a sign column before numbers to denote smth happened in/with the line
+set signcolumn=auto
+
 if has("persistent_undo")
     silent set undodir
     silent set undofile
@@ -186,7 +191,7 @@ Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
 
 " Add an intellisense engine (and language server) to VIM
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language: PHP
 let g:php_manual_online_search_shortcut = '<C-i>'
@@ -538,8 +543,6 @@ let g:ale_php_phpcs_standard='.php_cs.dist'
 "-------------------COC----------------------------
 " Required for operations modifying multiple buffers like rename.
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-sh', 'coc-markdownlint', 'coc-yaml', 'coc-tsserver', 'coc-pyright', 'coc-spell-checker']
-set hidden
-set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
