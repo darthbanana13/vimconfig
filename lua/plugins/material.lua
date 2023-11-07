@@ -119,7 +119,7 @@ return {
               visual_grey = "#3a3e4d", -- visual grey
               menu_grey = "#3e4451", -- menu grey
               special_grey = "#3b4048", -- special grey
-	      pale_blue = "#b0c9ff", -- a lighter shade of blue for pale blue
+              pale_blue = "#b0c9ff", -- a lighter shade of blue for pale blue
               purple = "#c792ea", -- vivid purple
               dark_red = "#e06c75", -- a darker, but still vivid red
               dark_green = "#98c379", -- a darker shade of green
@@ -165,14 +165,14 @@ return {
           colors.editor.accent = paperColorDark.blue
 
           colors.syntax.variable = paperColorDark.fg
-	  colors.syntax.field = paperColorDark.fg
+          colors.syntax.field = paperColorDark.fg
           colors.syntax.keyword = paperColorDark.magenta
-	  colors.syntax.value = paperColorDark.orange
+          colors.syntax.value = paperColorDark.orange
           colors.syntax.fn = paperColorDark.blue
           colors.syntax.string = paperColorDark.green
           colors.syntax.operator = paperColorDark.cyan
           colors.syntax.type = paperColorDark.yellow
-	  colors.syntax.comments = paperColorDark.comment_grey
+          colors.syntax.comments = paperColorDark.comment_grey
 
           colors.git.added = paperColorDark.green
           colors.git.removed = paperColorDark.red
