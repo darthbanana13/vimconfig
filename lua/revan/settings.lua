@@ -4,10 +4,10 @@ vim.o.relativenumber = true
 -- Use spaces instead of tabs
 vim.o.expandtab = true
 
--- Set tab top 4 spaces like a normal person 
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
+-- Reset the tab value
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
 
 -- Enable the mose everywhere
  vim.o.mouse = 'a'
