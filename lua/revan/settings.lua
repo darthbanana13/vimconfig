@@ -48,3 +48,26 @@ vim.o.smartcase = true
 
 -- Set true/24-bit color
 vim.o.termguicolors = true
+
+-- Prevent the cursor going back one character when leaving insert
+local CursorColumnInsert = 1
+-- get the current position of the cursor and store it in the var above
+vim.api.nvim_create_autocmd(
+  { 'InsertEnter', 'CursorMovedI' },
+  {
+    callback = function(ev)
+      CursorColumnInsert = vim.fn.col('.') 
+    end,
+  }
+)
+-- restore the cursor position when leaving insert
+vim.api.nvim_create_autocmd(
+  'InsertLeave',
+  {
+    callback = function(ev)
+      if vim.fn.col('.') ~= CursorColumnInsert then
+        vim.api.nvim_win_set_cursor(0, { vim.fn.line('.'), vim.fn.col('.') })
+      end
+    end,
+  }
+)
