@@ -11,12 +11,3 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
-
--- require("lazy").setup({
---   "folke/which-key.nvim",
---   { "folke/neoconf.nvim", cmd = "Neoconf" },
---   "folke/neodev.nvim",
---   "tpope/vim-vinegar",
---   'navarasu/onedark.nvim',
---   "norcalli/nvim-colorizer.lua",
--- })
