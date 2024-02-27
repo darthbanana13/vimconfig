@@ -69,9 +69,10 @@ return {
       end)
 
       require('mason-lspconfig').setup({
-        ensure_installed = {},
+        ensure_installed = {'ansiblels', 'bashls', 'lua_ls'},
         handlers = {
           lsp_zero.default_setup,
+          -- If you only wish to temporarily modify an LSP config use :LspZeroViewConfigSource lsp_name
           lua_ls = function()
             -- (Optional) Configure lua language server for neovim
             local lua_opts = lsp_zero.nvim_lua_ls()
