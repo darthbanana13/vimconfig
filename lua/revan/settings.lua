@@ -64,7 +64,7 @@ api.nvim_create_autocmd(
   { 'InsertEnter', 'CursorMovedI' },
   {
     callback = function(ev)
-      CursorColumnInsert = vim.fn.col('.') 
+      CursorColumnInsert = vim.fn.col('.')
     end,
   }
 )

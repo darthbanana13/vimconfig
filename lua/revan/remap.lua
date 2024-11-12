@@ -19,3 +19,14 @@ map({'n', 'i'}, '<S-Down>', ':m+<CR>', remap)
 
 -- Press // to search for the highlighted text
 map('v', '//', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], remap)
+
+-- "Make it easy to edit vim config
+map('n', '<leader>ev', ':tabedit $MYVIMRC<cr>', remap)
+map('n', '<leader>es', ':tabedit', remap)
+
+-- "Highlight removal
+map('n', '<leader><space>', ':nohlsearch<cr>', remap)
+
+-- "Zoom in and out of splits
+map('n', '<leader>z', '<c-w>_ | <c-w>|', remap)
+map('n', '<leader>o', '<c-w>=', remap)
