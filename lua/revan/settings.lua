@@ -1,5 +1,6 @@
 local opt = vim.opt
 local api = vim.api
+local autocmd = vim.api.nvim_create_autocmd
 
 -- Show relative line numbers to where the cursor is for easy jumping
 opt.number = true
@@ -7,7 +8,7 @@ opt.relativenumber = true
 
 -- Customize line numbers, in insert mode use absolute, use relative everywhere else
 local numberToggleGroup = api.nvim_create_augroup('numberToggle', { clear = true })
-api.nvim_create_autocmd(
+autocmd(
   { 'BufEnter', 'FocusGained', 'InsertLeave' },
   {
     callback = function(ev)
@@ -16,7 +17,7 @@ api.nvim_create_autocmd(
     group = numberToggleGroup,
   }
 )
-api.nvim_create_autocmd(
+autocmd(
   { 'BufLeave', 'FocusLost', 'InsertEnter' },
   {
     callback = function(ev)
@@ -60,7 +61,7 @@ opt.termguicolors = true
 -- Prevent the cursor going back one character when leaving insert
 local CursorColumnInsert = 1
 -- get the current position of the cursor and store it in the var above
-api.nvim_create_autocmd(
+autocmd(
   { 'InsertEnter', 'CursorMovedI' },
   {
     callback = function(ev)
@@ -69,7 +70,7 @@ api.nvim_create_autocmd(
   }
 )
 -- restore the cursor position when leaving insert
-api.nvim_create_autocmd(
+autocmd(
   'InsertLeave',
   {
     callback = function(ev)
@@ -79,3 +80,14 @@ api.nvim_create_autocmd(
     end,
   }
 )
+
+-- Stop highlighting as soon as you exit search, similar to romainl/vim-cool
+-- Copied from: https://www.reddit.com/r/neovim/comments/1ct2w2h/lua_adaptation_of_vimcool_auto_nohlsearch/
+autocmd('CursorMoved', {
+  group = vim.api.nvim_create_augroup('auto-hlsearch', { clear = true }),
+  callback = function ()
+    if vim.v.hlsearch == 1 and vim.fn.searchcount().exact_match == 0 then
+      vim.schedule(function () vim.cmd.nohlsearch() end)
+    end
+  end
+})

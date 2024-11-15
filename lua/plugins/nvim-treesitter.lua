@@ -36,6 +36,7 @@ return {
           'query',
           'regex',
           'requirements',
+          'toml',
           'vim',
           'vimdoc',
           'xml',

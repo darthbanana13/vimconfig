@@ -3,6 +3,7 @@ return {
   init = function()
     local map = vim.keymap.set
     local remap = { silent = true, noremap = true }
+    local global = vim.g
 
     map({'n', 'v', 's'}, '<leader>w', 'W', remap)
     map({'n', 'v', 's'}, '<leader>b', 'B', remap)
@@ -24,7 +25,7 @@ return {
     map({'o', 'x'}, 'iE', 'ie', remap)
     map({'o', 'x'}, 'giE', 'gie', remap)
 
-    vim.g.wordmotion_mappings = {
+    global.wordmotion_mappings = {
       w = 'w',
       b = 'b',
       e = 'e',
@@ -32,8 +33,8 @@ return {
       aw = 'aw',
       iw = 'iw',
     }
-    vim.g.wordmotion_mappings['<C-R><C-W>'] = '<C-R><C-w>'
-    vim.g.wordmotion_spaces = '_-.'
+    global.wordmotion_mappings['<C-R><C-W>'] = '<C-R><C-w>'
+    global.wordmotion_spaces = '_-.'
 
   end,
 }
