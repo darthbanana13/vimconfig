@@ -2,11 +2,11 @@
 
 return {
   {
-    "marko-cerovac/material.nvim",
+    'marko-cerovac/material.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
-      vim.g.material_style = "palenight"
+      vim.g.material_style = 'palenight'
 
       require('material').setup({
         contrast = {
@@ -30,31 +30,31 @@ return {
 
         plugins = { -- Uncomment the plugins that you use to highlight them
           -- Available plugins:
-          -- "dap",
-          -- "dashboard",
-          -- "eyeliner",
-          -- "fidget"
-          -- "flash"
-          -- "gitsigns",
-          -- "harpoon",
-          -- "hop",
-          -- "illuminate",
-          -- "indent-blankline",
-          -- "lspsaga",
-          -- "mini",
-          -- "neogit",
-          -- "neotest",
-          -- "neorg",
-          -- "noice"
-          -- "nvim-cmp",
-          -- "nvim-navic",
-          -- "nvim-tree",
-          -- "nvim-web-devicons",
-          -- "rainbow-delimiters",
-          -- "sneak",
-          -- "telescope",
-          -- "trouble",
-          -- "which-key",
+          -- 'dap',
+          -- 'dashboard',
+          -- 'eyeliner',
+          -- 'fidget'
+          -- 'flash'
+          -- 'gitsigns',
+          -- 'harpoon',
+          -- 'hop',
+          -- 'illuminate',
+          -- 'indent-blankline',
+          -- 'lspsaga',
+          -- 'mini',
+          -- 'neogit',
+          -- 'neotest',
+          -- 'neorg',
+          -- 'noice'
+          -- 'nvim-cmp',
+          -- 'nvim-navic',
+          -- 'nvim-tree',
+          -- 'nvim-web-devicons',
+          -- 'rainbow-delimiters',
+          -- 'sneak',
+          -- 'telescope',
+          -- 'trouble',
+          -- 'which-key',
         },
 
         disable = {
@@ -70,7 +70,7 @@ return {
           darker = false -- Enable higher contrast text for darker style
         },
 
-        lualine_style = "default", -- Lualine style ( can be 'stealth' or 'default' )
+        lualine_style = 'default', -- Lualine style ( can be 'stealth' or 'default' )
 
         async_loading = true, -- Load parts of the theme asyncronously for faster startup (turned on by default)
 
@@ -79,34 +79,34 @@ return {
         custom_colors = function(colors)
           -- PaperColor dark variant colors
           local paperColorDark = {
-              bg = "#1c1c1c", -- background
-              fg = "#e7e9db", -- foreground, slightly off-white for better contrast
-              red = "#f28b82", -- more vivid red
-              green = "#a6e22e", -- vivid green
-              yellow = "#ffdf80", -- vivid yellow
-              blue = "#5fafd7", -- blue
-              -- blue = "#82aaff", -- vivid blue
-              magenta = "#c792ea", -- vivid magenta
-              cyan = "#89ddff", -- vivid cyan
-              white = "#ffffff", -- white for higher contrast elements
-              black = "#000000", -- black for higher contrast elements
-              orange = "#f99157", -- vivid orange
-              pink = "#ff9cac", -- vivid pink
-              comment_grey = "#808080", -- comment grey
-              gutter_fg_grey = "#abb2bf", -- gutter foreground grey
-              cursor_grey = "#2c2f3e", -- cursor grey
-              visual_grey = "#3a3e4d", -- visual grey
-              menu_grey = "#3e4451", -- menu grey
-              special_grey = "#3b4048", -- special grey
-              pale_blue = "#b0c9ff", -- a lighter shade of blue for pale blue
-              purple = "#c792ea", -- vivid purple
-              dark_red = "#e06c75", -- a darker, but still vivid red
-              dark_green = "#98c379", -- a darker shade of green
-              dark_yellow = "#e5c07b", -- a darker shade of yellow
-              dark_blue = "#61afef", -- a darker shade of blue
-              dark_cyan = "#56b6c2", -- a darker shade of cyan
-              dark_purple = "#c678dd", -- a darker shade of purple
-              dark_orange = "#d19a66", -- a darker shade of orange
+              bg = '#1c1c1c', -- background
+              fg = '#e7e9db', -- foreground, slightly off-white for better contrast
+              red = '#f28b82', -- more vivid red
+              green = '#a6e22e', -- vivid green
+              yellow = '#ffdf80', -- vivid yellow
+              blue = '#5fafd7', -- blue
+              -- blue = '#82aaff', -- vivid blue
+              magenta = '#c792ea', -- vivid magenta
+              cyan = '#89ddff', -- vivid cyan
+              white = '#ffffff', -- white for higher contrast elements
+              black = '#000000', -- black for higher contrast elements
+              orange = '#f99157', -- vivid orange
+              pink = '#ff9cac', -- vivid pink
+              comment_grey = '#808080', -- comment grey
+              gutter_fg_grey = '#abb2bf', -- gutter foreground grey
+              cursor_grey = '#2c2f3e', -- cursor grey
+              visual_grey = '#3a3e4d', -- visual grey
+              menu_grey = '#3e4451', -- menu grey
+              special_grey = '#3b4048', -- special grey
+              pale_blue = '#b0c9ff', -- a lighter shade of blue for pale blue
+              purple = '#c792ea', -- vivid purple
+              dark_red = '#e06c75', -- a darker, but still vivid red
+              dark_green = '#98c379', -- a darker shade of green
+              dark_yellow = '#e5c07b', -- a darker shade of yellow
+              dark_blue = '#61afef', -- a darker shade of blue
+              dark_cyan = '#56b6c2', -- a darker shade of cyan
+              dark_purple = '#c678dd', -- a darker shade of purple
+              dark_orange = '#d19a66', -- a darker shade of orange
           }
 
           -- Mapping PaperColor to material.nvim color slots
@@ -166,7 +166,7 @@ return {
         custom_highlights = {}, -- Overwrite highlights with your own
       })
 
-      vim.cmd.colorscheme("material")
+      -- vim.cmd.colorscheme('material')
     end,
   }
 }
