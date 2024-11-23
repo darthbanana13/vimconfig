@@ -24,9 +24,5 @@ map('v', '//', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], remap)
 map('n', '<leader>ev', ':tabedit $MYVIMRC<cr>', remap)
 map('n', '<leader>es', ':tabedit', remap)
 
--- "Zoom in and out of splits
-map('n', '<leader>z', '<c-w>_ | <c-w>|', remap)
-map('n', '<leader>o', '<c-w>=', remap)
-
 -- Possible fix for sudo writing, alternative to lambdalisue/vim-suda. Should be fixed when https://github.com/neovim/neovim/issues/1496#issuecomment-63695965 is closed
 map('c', 'w!!', "<esc>:lua require'utils'.sudo_write()<CR>", { silent = true })
