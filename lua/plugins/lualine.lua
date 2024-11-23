@@ -26,6 +26,9 @@ return {
           theme = 'powerline_dark',
         },
         globalstatus = true,
+        extensions = {
+          'fugitive',
+        },
         sections = {
           -- these are to remove the defaults
           lualine_a = {},
@@ -81,6 +84,13 @@ return {
 
       insb {
         'diff',
+        colored = true,
+        diff_color = {
+          -- Same color values as the general color option can be used here.
+          added    = 'LuaLineDiffAdd',    -- Changes the diff's added color
+          modified = 'LuaLineDiffChange', -- Changes the diff's modified color
+          removed  = 'LuaLineDiffDelete', -- Changes the diff's removed color you
+        },
         source = diff_source
       }
 
@@ -139,7 +149,9 @@ return {
         'progress'
       }
 
-
+      insz {
+        'location'
+      }
 
       require('lualine').setup(configs)
     end,
