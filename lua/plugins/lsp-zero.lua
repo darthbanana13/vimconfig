@@ -22,7 +22,10 @@ return {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
     dependencies = {
-      {'L3MON4D3/LuaSnip'},
+      { 'L3MON4D3/LuaSnip' },
+      { 'saadparwaiz1/cmp_luasnip' },
+      { 'hrsh7th/cmp-buffer' },
+      { 'rafamadriz/friendly-snippets' },
     },
     config = function()
       -- Here is where you configure the autocompletion settings.
@@ -33,6 +36,8 @@ return {
       local cmp = require('cmp')
       local cmp_action = lsp_zero.cmp_action()
       local luasnip = require('luasnip')
+      -- this will load rafamadriz/friendly-snippets
+      require('luasnip.loaders.from_vscode').lazy_load()
 
       cmp.setup({
         preselect = 'item', -- Preselect item https://github.com/VonHeikemen/lsp-zero.nvim/blob/v4.x/doc/md/autocomplete.md#preselect-first-item
@@ -41,6 +46,8 @@ return {
         },
         sources = {
           {name = 'nvim_lsp'},
+          {name = 'luasnip' },
+          {name = 'buffer'},
         },
         snippet = {
           expand = function(args)
@@ -49,15 +56,43 @@ return {
         },
         formatting = lsp_zero.cmp_format(),
         mapping = cmp.mapping.preset.insert({
-          ['<Tab>'] = cmp.mapping.confirm({select = true}),
+          ['<cr>'] = cmp.mapping.confirm({select = true}),
           ['<C-space>'] = cmp.mapping.complete(),
           ['<C-u>'] = cmp.mapping.scroll_docs(-4),
           ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-          ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+          -- ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+          -- ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+          ['<C-f>'] = cmp.mapping(function(fallback)
+            if luasnip.locally_jumpable(1) then
+              luasnip.jump(1)
+            else
+              fallback()
+            end
+          end, {'i', 's'}),
+          -- Jump to the previous snippet placeholder
+          ['<C-b>'] = cmp.mapping(function(fallback)
+            if luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, {'i', 's'}),
         })
       })
     end
+  },
+  {
+    'L3MON4D3/LuaSnip',
+    version = '^2',
+    init = function()
+      local map = vim.keymap.set
+      local ls = require('luasnip')
+
+      -- Don't use Super Tab, ls.jumpable(1) & ls.in_snippet() has problems if
+      -- you'd like to leave the current node empty
+      map({'i', 's'}, '<C-n>', function() ls.jump( 1) end, { silent = true, desc = 'Jump ahead in snippet' })
+      map({'i', 's'}, '<C-m>', function() ls.jump(-1) end, { silent = true, desc = 'Jump backwards in snippet' })
+    end,
   },
 
   -- LSP
@@ -75,17 +110,18 @@ return {
         desc = 'LSP actions',
         callback = function(event)
           local opts = {buffer = event.buf}
+          local map = vim.keymap.set
 
-          vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-          vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-          vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-          vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-          vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-          vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-          vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-          vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-          vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-          vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+          map('n', 'K',  vim.lsp.buf.hover, { buffer = event.buf, desc='Show description' })
+          map('n', 'gd', vim.lsp.buf.definition, { buffer = event.buf, desc='Go to definition' })
+          -- map('n', 'gD', vim.lsp.buf.declaration, opts) -- I don't really use this, definition is better
+          -- map('n', 'gi', vim.lsp.buf.implementation, opts) -- I don't really use this, definition is better
+          -- map('n', 'go', vim.lsp.buf.type_definition, opts) -- I don't really use this, definition is better
+          map('n', 'gr', vim.lsp.buf.references, { buffer = event.buf, desc='Show references' })
+          -- map('n', 'gs', vim.lsp.buf.signature_help, opts) -- I don't really use this, hover is better
+          map('n', '<F2>', vim.lsp.buf.rename, { buffer = event.buf, desc='Rename/Refactor name' })
+          map({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { buffer = event.buf, desc='Format file' })
+          map('n', '<F4>', vim.lsp.buf.code_action, { buffer = event.buf, desc='Run code action' })
         end,
       })
       -- This is where all the LSP shenanigans will live
@@ -101,7 +137,8 @@ return {
       end)
 
       require('mason-lspconfig').setup({
-        ensure_installed = {'ansiblels', 'bashls', 'lua_ls'},
+        -- Optional: ansiblels gopls
+        ensure_installed = {'bashls', 'lua_ls'},
         handlers = {
           lsp_zero.default_setup,
           -- If you only wish to temporarily modify an LSP config use :LspZeroViewConfigSource lsp_name
