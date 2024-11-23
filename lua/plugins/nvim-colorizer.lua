@@ -1,4 +1,5 @@
 return {
   'norcalli/nvim-colorizer.lua',
-  config = true
+  -- Basically use this command :ColorizerToggle
+  config = true,
 }
