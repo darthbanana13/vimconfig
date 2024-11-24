@@ -41,6 +41,10 @@ opt.mouse = 'a'
 -- Alaways store undos, even if the file is closed
 opt.undofile = true
 
+-- Don't lose undo if abandoining a buffer
+-- Default is true, so no real need to set it
+-- opt.hidden = true
+
 -- Automatically write the file when switching buffers.
 opt.autowriteall = true
 
