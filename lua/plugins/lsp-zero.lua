@@ -45,9 +45,10 @@ return {
           completeopt = 'menu,menuone,noinsert'
         },
         sources = {
-          {name = 'nvim_lsp'},
-          {name = 'luasnip' },
-          {name = 'buffer'},
+          { name = 'path' },
+          { name = 'nvim_lsp' },
+          { name = 'luasnip', keyword_length = 3 },
+          { name = 'buffer', keyword_length = 3 },
         },
         snippet = {
           expand = function(args)
@@ -60,8 +61,6 @@ return {
           ['<C-space>'] = cmp.mapping.complete(),
           ['<C-u>'] = cmp.mapping.scroll_docs(-4),
           ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          -- ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-          -- ['<C-b>'] = cmp_action.luasnip_jump_backward(),
           ['<C-f>'] = cmp.mapping(function(fallback)
             if luasnip.locally_jumpable(1) then
               luasnip.jump(1)
@@ -141,7 +140,8 @@ return {
         ensure_installed = {'bashls', 'lua_ls'},
         handlers = {
           lsp_zero.default_setup,
-          -- If you only wish to temporarily modify an LSP config use :LspZeroViewConfigSource lsp_name
+          -- To understand how to override defaults use: :h mason-lspconfig.setup_handlers()
+          -- To see the default config for a LSP use :LspZeroViewConfigSource lsp_name
           lua_ls = function()
             -- (Optional) Configure lua language server for neovim
             local lua_opts = lsp_zero.nvim_lua_ls()
