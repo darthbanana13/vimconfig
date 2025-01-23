@@ -32,11 +32,13 @@ return {
       -- Here is where you configure the autocompletion settings.
       local lsp_zero = require('lsp-zero')
       lsp_zero.extend_cmp()
+      local formatting = require('lsp-zero.cmp').format()
 
       -- And you can configure cmp even more, if you want to.
       local cmp = require('cmp')
       -- local cmp_action = lsp_zero.cmp_action()
       local luasnip = require('luasnip')
+      local lspkind = require('lspkind')
       -- this will load rafamadriz/friendly-snippets
       require('luasnip.loaders.from_vscode').lazy_load()
 
@@ -57,7 +59,24 @@ return {
             luasnip.lsp_expand(args.body)
           end,
         },
-        formatting = lsp_zero.cmp_format(),
+        -- Override default lsp-zero formatting to include lspkind
+        -- formatting = lsp_zero.cmp_format(),
+        formatting = {
+          format = lspkind.cmp_format({
+            mode = 'symbol', -- show only symbol annotations
+            maxwidth = {
+              -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+              -- can also be a function to dynamically calculate max width such as
+              -- menu = function() return math.floor(0.45 * vim.o.columns) end,
+              menu = 50, -- leading text (labelDetails)
+              abbr = 50, -- actual suggestion item
+            },
+            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+            before = formatting.format,
+          }),
+          fields = formatting.fields,
+        },
         mapping = cmp.mapping.preset.insert({
           ['<cr>'] = cmp.mapping.confirm({select = true}),
           ['<C-space>'] = cmp.mapping.complete(),
@@ -95,10 +114,16 @@ return {
       map({'i', 's'}, '<C-m>', function() ls.jump(-1) end, { silent = true, desc = 'Jump backwards in snippet' })
     end,
   },
-  -- {
-  --   'onsails/lspkind.nvim',
-  --   opts = {},
-  -- },
+  {
+    'onsails/lspkind.nvim',
+    init = function()
+      require('lspkind').init({
+        symbol_map = {
+          Copilot = '',
+        },
+      })
+    end,
+  },
 
   -- LSP
   {
