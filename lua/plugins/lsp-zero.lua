@@ -22,6 +22,7 @@ return {
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
     dependencies = {
+      { 'zbirenbaum/copilot-cmp' },
       { 'L3MON4D3/LuaSnip' },
       { 'saadparwaiz1/cmp_luasnip' },
       { 'hrsh7th/cmp-buffer' },
@@ -34,7 +35,7 @@ return {
 
       -- And you can configure cmp even more, if you want to.
       local cmp = require('cmp')
-      local cmp_action = lsp_zero.cmp_action()
+      -- local cmp_action = lsp_zero.cmp_action()
       local luasnip = require('luasnip')
       -- this will load rafamadriz/friendly-snippets
       require('luasnip.loaders.from_vscode').lazy_load()
@@ -47,7 +48,8 @@ return {
         sources = {
           { name = 'path' },
           { name = 'nvim_lsp' },
-          { name = 'luasnip', keyword_length = 3 },
+          { name = 'copilot' },
+          { name = 'luasnip', keyword_length = 2 },
           { name = 'buffer', keyword_length = 3 },
         },
         snippet = {
@@ -89,10 +91,14 @@ return {
 
       -- Don't use Super Tab, ls.jumpable(1) & ls.in_snippet() has problems if
       -- you'd like to leave the current node empty
-      map({'i', 's'}, '<C-n>', function() ls.jump( 1) end, { silent = true, desc = 'Jump ahead in snippet' })
+      map({'i', 's'}, '<C-y>', function() ls.jump( 1) end, { silent = true, desc = 'Jump ahead in snippet' })
       map({'i', 's'}, '<C-m>', function() ls.jump(-1) end, { silent = true, desc = 'Jump backwards in snippet' })
     end,
   },
+  -- {
+  --   'onsails/lspkind.nvim',
+  --   opts = {},
+  -- },
 
   -- LSP
   {
