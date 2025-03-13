@@ -56,7 +56,6 @@ return {
       end,
     })
 
-
     vim.cmd.colorscheme('PaperColorSlim')
   end,
 }

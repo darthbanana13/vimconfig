@@ -23,6 +23,9 @@ return {
     event = 'InsertEnter',
     dependencies = {
       { 'zbirenbaum/copilot-cmp' },
+      -- { 'tzachar/cmp-ai' },
+      -- { 'milanglacier/minuet-ai.nvim' },
+      { 'hrsh7th/cmp-nvim-lsp' },
       { 'L3MON4D3/LuaSnip' },
       { 'saadparwaiz1/cmp_luasnip' },
       { 'hrsh7th/cmp-buffer' },
@@ -49,8 +52,8 @@ return {
         },
         sources = {
           { name = 'path' },
-          { name = 'nvim_lsp' },
           { name = 'copilot' },
+          { name = 'nvim_lsp' },
           { name = 'luasnip', keyword_length = 2 },
           { name = 'buffer', keyword_length = 3 },
         },
@@ -79,7 +82,7 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           ['<cr>'] = cmp.mapping.confirm({select = true}),
-          ['<C-space>'] = cmp.mapping.complete(),
+          ['<C-Right>'] = cmp.mapping.complete(),
           ['<C-u>'] = cmp.mapping.scroll_docs(-4),
           ['<C-d>'] = cmp.mapping.scroll_docs(4),
           ['<C-f>'] = cmp.mapping(function(fallback)
@@ -120,6 +123,12 @@ return {
       require('lspkind').init({
         symbol_map = {
           Copilot = '',
+          minute = "",
+          Ollama = "",
+          HF = "",
+          OpenAI = "",
+          Codestral = "",
+          Bard = "",
         },
       })
     end,
