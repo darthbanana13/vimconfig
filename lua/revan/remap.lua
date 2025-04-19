@@ -28,7 +28,7 @@ map('n', '<leader>es', ':tabedit', remap)
 -- Possible fix for sudo writing, alternative to lambdalisue/vim-suda. Should be fixed when https://github.com/neovim/neovim/issues/1496#issuecomment-63695965 is closed
 map('c', 'w!!', "<esc>:lua require'utils'.sudo_write()<CR>", { silent = true })
 
-map('n', ';', ':', remap)
+-- map('n', ';', ':', remap)
 cmd('W', 'w', {})
 cmd('Wq', 'wq', {})
 cmd('WQ', 'wq', {})
