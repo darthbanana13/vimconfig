@@ -13,13 +13,16 @@ return {
         hl(0, "CmpItemAbbrMatch", { link = "CmpItemAbbrMatchCM" })
       end,
     })
-    require("newpaper").setup({
-      style = "dark",
-      colors = {
-        bg = 'NONE',
-      },
-    })
+    -- require("newpaper").setup({
+    --   style = "dark",
+    --   colors = {
+    --     bg = 'NONE',
+    --   },
+    -- })
 
+    -- This colorscheme auto activates itself after setup, thus we need to
+    --  re-confirm our prefefered colorscheme here
+    -- vim.cmd.colorscheme('PaperColorSlim')
     -- vim.cmd.colorscheme('newpaper')
   end,
 }
