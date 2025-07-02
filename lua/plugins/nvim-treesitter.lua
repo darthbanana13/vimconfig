@@ -1,7 +1,9 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    lazy = false,
+    branch = 'master',
+    build = ':TSUpdate',
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
