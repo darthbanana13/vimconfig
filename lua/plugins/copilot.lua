@@ -1,32 +1,26 @@
 return {
   {
     'zbirenbaum/copilot.lua',
-    cmd = "Copilot",
-    event = "InsertEnter",
+    cmd = 'Copilot',
+    event = 'InsertEnter',
     config = function()
-      require("copilot").setup({
+      require('copilot').setup({
         suggestion = { enabled = false },
         panel = { enabled = false },
       })
     end,
   },
   {
-    'zbirenbaum/copilot-cmp',
+    'CopilotC-Nvim/CopilotChat.nvim',
     dependencies = {
       { 'zbirenbaum/copilot.lua' },
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope-ui-select.nvim' },
     },
-    config = function ()
-      require('copilot_cmp').setup()
-    end
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = {
-      { 'zbirenbaum/copilot.lua' },
-      { "nvim-lua/plenary.nvim"},
-    },
-    build = "make tiktoken",
-    opts = {
-    },
+    build = 'make tiktoken',
+    config = function()
+      require('telescope').load_extension('ui-select')
+      require('CopilotChat').setup()
+    end,
   },
 }
