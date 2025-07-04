@@ -23,9 +23,11 @@ return {
       },
 
       completion = {
-        ghost_text = {
-          enabled = true,
-        },
+        -- The behavior is wierd in some cases with gost text enabled.
+        -- Maybe enable it if we want to manually trigger the completion menu.
+        -- ghost_text = {
+        --   enabled = true,
+        -- },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 1000,
@@ -110,22 +112,42 @@ return {
         -- config keymaps https://github.com/VonHeikemen/lsp-zero.nvim/blob/v4.x/doc/md/tutorial.md#lsp-support
         vim.api.nvim_create_autocmd('LspAttach', {
           desc = 'LSP actions',
-          callback = function(event)
+          group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+          callback = function(ev)
             -- local opts = {buffer = event.buf}
             local map = vim.keymap.set
+            local buf = vim.lsp.buf
 
-            map('n', 'K',  vim.lsp.buf.hover, { buffer = event.buf, desc='Show description' })
-            map('n', 'gd', vim.lsp.buf.definition, { buffer = event.buf, desc='Go to definition' })
-            -- map('n', 'gD', vim.lsp.buf.declaration, opts) -- I don't really use this, definition is better
-            -- map('n', 'gi', vim.lsp.buf.implementation, opts) -- I don't really use this, definition is better
-            -- map('n', 'go', vim.lsp.buf.type_definition, opts) -- I don't really use this, definition is better
-            map('n', 'gr', vim.lsp.buf.references, { buffer = event.buf, desc='Show references' })
-            -- map('n', 'gs', vim.lsp.buf.signature_help, opts) -- I don't really use this, hover is better
-            map('n', '<F2>', vim.lsp.buf.rename, { buffer = event.buf, desc='Rename/Refactor name' })
-            map({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { buffer = event.buf, desc='Format file' })
-            map('n', '<F4>', vim.lsp.buf.code_action, { buffer = event.buf, desc='Run code action' })
+            map('n', 'K',  buf.hover, { buffer = ev.buf, desc='Show description' })
+            map('n', 'gd', buf.definition, { buffer = ev.buf, desc='Go to definition' })
+            -- map('n', 'gD', buf.declaration, opts) -- I don't really use this, definition is better
+            -- map('n', 'gi', buf.implementation, opts) -- I don't really use this, definition is better
+            -- map('n', 'go', buf.type_definition, opts) -- I don't really use this, definition is better
+            map('n', 'gr', buf.references, { buffer = ev.buf, desc='Show references' })
+            -- map('n', 'gs', buf.signature_help, opts) -- I don't really use this, hover is better
+            map('n', '<F2>', buf.rename, { buffer = ev.buf, desc='Rename/Refactor name' })
+            map({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', { buffer = ev.buf, desc='Format file' })
+            map('n', '<F4>', buf.code_action, { buffer = ev.buf, desc='Run code action' })
+            map('n', '<leader>k', function ()
+              vim.diagnostic.open_float(nil, {
+                focusable = false,
+                scope = 'line',
+                border = 'rounded',
+              })
+            end, { buffer = ev.buf, desc='Show diagnostics for line' })
           end,
         })
+      })
+
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = '■',
+          spacing = 4,
+        },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
       })
 
       for server, config in pairs(opts.servers or {}) do
