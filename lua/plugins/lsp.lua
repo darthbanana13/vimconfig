@@ -7,6 +7,7 @@ return {
       { 'rafamadriz/friendly-snippets' },
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
       { 'fang2hou/blink-copilot' },
+      { 'folke/lazydev.nvim' },
     },
     opts = {
       keymap = {
@@ -62,14 +63,17 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'path', 'copilot', 'lsp', 'snippets', 'buffer' },
-        -- default = { 'path', 'lsp', 'snippets', 'buffer' },
+        default = { 'path', 'copilot', 'lazydev', 'lsp', 'snippets', 'buffer' },
         providers = {
           copilot = {
             name = 'copilot',
             module = 'blink-copilot',
             score_offset = 100,
             async = true,
+          },
+          lazydev = {
+            name = 'LazyDev',
+            module = 'lazydev.integrations.blink',
           },
         },
       },
@@ -89,16 +93,17 @@ return {
     opts = {
       servers = {
         lua_ls = {
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { 'vim' }, -- Recognize vim as a global variable
-              },
-              workspace = {
-                checkThirdParty = false, -- Disable third-party checks
-              },
-            },
-          },
+          -- Not needed anymore with folke/lazydev.nvim
+          -- settings = {
+          --   Lua = {
+          --     diagnostics = {
+          --       globals = { 'vim' }, -- Recognize vim as a global variable
+          --     },
+          --     workspace = {
+          --       checkThirdParty = false, -- Disable third-party checks
+          --     },
+          --   },
+          -- },
         },
         bashls = {},
       },
@@ -171,6 +176,18 @@ return {
     --   map({'i', 's'}, '<C-y>', function() ls.jump( 1) end, { silent = true, desc = 'Jump ahead in snippet' })
     --   map({'i', 's'}, '<C-m>', function() ls.jump(-1) end, { silent = true, desc = 'Jump backwards in snippet' })
     -- end,
+  },
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        'lazy.nvim',
+        'LazyVim',
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        'nvim-dap-ui',
+      },
+    },
   },
   {
     'xzbdmw/colorful-menu.nvim',
