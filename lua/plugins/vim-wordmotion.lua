@@ -1,5 +1,5 @@
 return {
-  "chaoren/vim-wordmotion",
+  'chaoren/vim-wordmotion',
   init = function()
     local map = vim.keymap.set
     local remap = { silent = true, noremap = true }

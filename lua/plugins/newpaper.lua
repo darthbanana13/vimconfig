@@ -10,11 +10,11 @@ return {
       group = group,
       pattern = 'NewPaper',
       callback = function()
-        hl(0, "CmpItemAbbrMatch", { link = "CmpItemAbbrMatchCM" })
+        hl(0, 'CmpItemAbbrMatch', { link = 'CmpItemAbbrMatchCM' })
       end,
     })
-    -- require("newpaper").setup({
-    --   style = "dark",
+    -- require('newpaper').setup({
+    --   style = 'dark',
     --   colors = {
     --     bg = 'NONE',
     --   },

@@ -5,7 +5,7 @@ return {
      'nvim-tree/nvim-web-devicons',
   },
   config = function()
-    require("telescope").load_extension("aerial")
+    require('telescope').load_extension('aerial')
     require('aerial').setup({
       layout = {
         default_direction = 'prefer_left',
@@ -15,7 +15,7 @@ return {
     vim.keymap.set(
       'n',
       '<C-s>',
-      require("telescope").extensions.aerial.aerial,
+      require('telescope').extensions.aerial.aerial,
       { desc='Filter buffer symbols' }
     )
   end,
