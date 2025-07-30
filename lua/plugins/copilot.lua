@@ -20,7 +20,11 @@ return {
     build = 'make tiktoken',
     config = function()
       require('telescope').load_extension('ui-select')
-      require('CopilotChat').setup()
+      require('CopilotChat').setup({
+        highlight_headers = false,
+        separator = '---',
+        error_header = '> [!ERROR] Error',
+      })
     end,
   },
 }
