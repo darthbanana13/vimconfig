@@ -21,9 +21,14 @@ return {
     config = function()
       require('telescope').load_extension('ui-select')
       require('CopilotChat').setup({
-        highlight_headers = false,
-        separator = '---',
-        error_header = '> [!ERROR] Error',
+        model = 'Gemini 2.5 Pro',
+        separator = '━━━',
+        show_folds = false,
+        headers = {
+          user = '🧠: ',
+          assistant = '🔮: ',
+          tool = '🩺: ',
+        },
       })
     end,
   },
