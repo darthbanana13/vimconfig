@@ -11,7 +11,7 @@ local numberToggleGroup = api.nvim_create_augroup('numberToggle', { clear = true
 autocmd(
   { 'BufEnter', 'FocusGained', 'InsertLeave' },
   {
-    callback = function(ev)
+    callback = function()
       opt.relativenumber = true
     end,
     group = numberToggleGroup,
@@ -20,10 +20,38 @@ autocmd(
 autocmd(
   { 'BufLeave', 'FocusLost', 'InsertEnter' },
   {
-    callback = function(ev)
+    callback = function()
       opt.relativenumber = false
     end,
     group = numberToggleGroup,
+  }
+)
+
+-- If Neovim is started with a directory argument, change to that directory
+local autoDirectoryGroup = api.nvim_create_augroup('autoDirectory', { clear = true })
+autocmd(
+  { 'VimEnter' },
+  {
+    group = autoDirectoryGroup,
+    callback = function()
+      local argv = vim.fn.argv()
+      if not argv or #argv == 0 then return end
+      local path = argv[1]
+      if not path or path == '' then return end
+
+      -- Handle oil:// scheme (e.g. oil:///some/path/)
+      if path:match('^oil://') then
+        path = path:gsub('^oil://+', '/')
+      end
+
+      -- Expand ~ and make absolute
+      path = vim.fn.fnamemodify(vim.fn.expand(path), ':p')
+
+      local stat = (vim.uv or vim.loop).fs_stat(path)
+      if stat and stat.type == 'directory' then
+        vim.cmd.cd(path)
+      end
+    end,
   }
 )
 
