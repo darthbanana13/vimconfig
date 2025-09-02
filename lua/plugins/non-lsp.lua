@@ -13,21 +13,43 @@ return {
         automatic_installation = true,
         handlers = {},
       })
-      local cspell = require("cspell")
       local null_ls = require("null-ls")
-      local b = null_ls.builtins
-      require("null-ls").setup({
+      local cspell = require("cspell")
+      local builtins = null_ls.builtins
+      local methods = null_ls.methods
+
+      -- Run only on open and save (not on every change)
+      local codespell_on_open = builtins.diagnostics.codespell.with({
+        method = methods.DIAGNOSTICS_ON_OPEN,
+      })
+      local codespell_on_save = builtins.diagnostics.codespell.with({
+        method = methods.DIAGNOSTICS_ON_SAVE,
+      })
+
+      local cspell_on_open = cspell.diagnostics.with({
+        method = methods.DIAGNOSTICS_ON_OPEN,
+        diagnostics_postprocess = function(diagnostic)
+          diagnostic.severity = vim.diagnostic.severity.HINT
+        end,
+      })
+      local cspell_on_save = cspell.diagnostics.with({
+        method = methods.DIAGNOSTICS_ON_SAVE,
+        diagnostics_postprocess = function(diagnostic)
+          diagnostic.severity = vim.diagnostic.severity.HINT
+        end,
+      })
+
+      null_ls.setup({
         sources = {
-          b.diagnostics.codespell,
-          cspell.diagnostics.with({
-            diagnostics_postprocess = function(diagnostic)
-              diagnostic.severity = vim.diagnostic.severity.HINT
-            end,
-          }),
-          cspell.code_actions,
-          b.completion.spell,
-        }
+          codespell_on_open,
+            codespell_on_save,
+            cspell_on_open,
+            cspell_on_save,
+            cspell.code_actions,
+            builtins.completion.spell,
+        },
       })
     end,
   },
 }
+
