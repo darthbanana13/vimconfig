@@ -9,7 +9,7 @@ return {
     },
     config = function()
       require("mason-null-ls").setup({
-        ensure_installed = { "codespell", "cspell" },
+        ensure_installed = { "codespell", "cspell", },
         automatic_installation = true,
         handlers = {},
       })

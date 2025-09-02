@@ -1,1 +1,29 @@
-{"flagWords":[],"version":"0.2","language":"en","words":["nvim","williamboman","nvimtools","davidmh","codespell","saghen","rafamadriz","folke","lazydev","keymap","luasnip","lspconfig","bashls","autotools","keymaps","autocmd","augroup","jsregexp","xzbdmw","gopls","vtsls","clangd","dartls","pyright","pylance","basedpyright","pylsp"]}
+{
+	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+	"dictionaries": [
+		"lua",
+		"filetypes",
+		"bash",
+		"en_us",
+		"en-gb",
+		"companies",
+		"softwareTerms",
+		"misc"
+	],
+	"version": "0.2",
+	"allowCompoundWords": true,
+	"words": [
+		"gopls",
+		"bashls",
+		"vtsls",
+		"clangd",
+		"dartls",
+		"pylance",
+		"pyright",
+		"pylsp"
+	],
+	"flagWords": [],
+	"language": "en",
+	"caseSensitive": false,
+	"unknownWords": "report-simple"
+}
