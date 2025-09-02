@@ -24,7 +24,7 @@ return {
       },
 
       completion = {
-        -- The behavior is wierd in some cases with gost text enabled.
+        -- The behavior is weird in some cases with ghost text enabled.
         -- Maybe enable it if we want to manually trigger the completion menu.
         -- ghost_text = {
         --   enabled = true,
@@ -106,6 +106,7 @@ return {
           -- },
         },
         bashls = {},
+        autotools_ls = {},
       },
     },
     config = function(_, opts)
@@ -270,7 +271,7 @@ return {
                 },
                 -- If true, try to highlight "not supported" languages.
                 fallback = true,
-                -- this will be applied to label description for unsupport languages
+                -- this will be applied to label description for unsupported languages
                 fallback_extra_info_hl = '@comment',
             },
             -- If the built-in logic fails to find a suitable highlight group for a label,
