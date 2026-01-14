@@ -120,6 +120,10 @@ return {
         }
       }
 
+      insc {
+        require 'minuet.lualine',
+      }
+
       insx {
         'searchcount',
         maxcount = 999,

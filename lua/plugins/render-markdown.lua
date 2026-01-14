@@ -14,7 +14,7 @@ return {
     },
     file_types = {
       'markdown',
-      'copilot-chat',
+      -- 'copilot-chat',
     },
   },
 }

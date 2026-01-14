@@ -6,7 +6,7 @@ return {
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
-      { 'fang2hou/blink-copilot' },
+      -- { 'fang2hou/blink-copilot' },
       { 'folke/lazydev.nvim' },
     },
     opts = {
@@ -31,7 +31,7 @@ return {
         -- },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 1000,
+          -- auto_show_delay_ms = 1000,
         },
         menu = {
           draw = {
@@ -63,13 +63,30 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'path', 'copilot', 'lazydev', 'lsp', 'snippets', 'buffer' },
+        default = {
+          'path',
+          'minuet',
+          -- 'copilot',
+          'lazydev',
+          'lsp',
+          'snippets',
+          'buffer'
+        },
         providers = {
-          copilot = {
-            name = 'copilot',
-            module = 'blink-copilot',
-            score_offset = 100,
+          -- copilot = {
+          --   name = 'copilot',
+          --   module = 'blink-copilot',
+          --   score_offset = 100,
+          --   async = true,
+          -- },
+          minuet = {
+            name = 'minuet',
+            module = 'minuet.blink',
             async = true,
+            -- Should match minuet.config.request_timeout * 1000,
+            -- since minuet.config.request_timeout is in seconds
+            timeout_ms = 10000,
+            score_offset = 100,
           },
           lazydev = {
             name = 'LazyDev',
