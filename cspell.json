@@ -13,6 +13,9 @@
 	"version": "0.2",
 	"allowCompoundWords": true,
 	"words": [
+		"ruggeri",
+		"qwen",
+		"ollama",
 		"gopls",
 		"bashls",
 		"vtsls",

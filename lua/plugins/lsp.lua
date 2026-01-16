@@ -6,7 +6,8 @@ return {
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
-      -- { 'fang2hou/blink-copilot' },
+      { 'olimorris/codecompanion.nvim' },
+      { 'milanglacier/minuet-ai.nvim' },
       { 'folke/lazydev.nvim' },
     },
     opts = {
@@ -63,6 +64,9 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
+        per_filetype = {
+          codecompanion = { "codecompanion" },
+        },
         default = {
           'path',
           'minuet',
@@ -70,7 +74,7 @@ return {
           'lazydev',
           'lsp',
           'snippets',
-          'buffer'
+          'buffer',
         },
         providers = {
           -- copilot = {
@@ -85,7 +89,7 @@ return {
             async = true,
             -- Should match minuet.config.request_timeout * 1000,
             -- since minuet.config.request_timeout is in seconds
-            timeout_ms = 10000,
+            timeout_ms = 30000,
             score_offset = 100,
           },
           lazydev = {
