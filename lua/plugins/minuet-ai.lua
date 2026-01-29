@@ -6,6 +6,12 @@ return {
     },
     config = function()
       require('minuet').setup {
+        blink = {
+          -- Activate completion by triggering :Minuet blink toggle
+          -- This is to avoid calling ollama on systems that do not have it
+          -- installed
+          enable_auto_complete = false,
+        },
         provider = 'openai_fim_compatible',
         -- I understand 30s seems like A LOT but if the models need to be
         -- swapped in the GPUs memory, that can take a lot of time. If the
